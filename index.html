@@ -6,7 +6,7 @@
 <!-- ШАБЛОН КАСТОМНОГО РОБОТА. Сделан 13.09.2026 на основе ludwig-console/index.html
      (уличный пульт, самый чистый на тот момент — otklik(), ensureConn(),
      flash(), LS-обёртка с префиксом, хак вибрации через <input type="checkbox" switch>).
-     РОБОТ TACTO — Roboter-Botschafter von Tacto (имени нет, не придумывать), 61. BME-Symposium Einkauf und Logistik, STATION Berlin, 18.–19.11.2026
+     РОБОТ TACTO-BOT — Roboter-Botschafter von Tacto (имя — решение Макса 17.11), 61. BME-Symposium Einkauf und Logistik, STATION Berlin, 18.–19.11.2026
      (контакт Charlotte Meyer-Schönherr). Мозг: prompts/roboty/tacto — брифинг Tacto «Das ist Tacto» (03.11) целиком, Sonnet + skip_turn, голос Ben.
      Копия пульта it-sa/DGAO (1b-robot): 13 хоткеев карточками (DE + маленькая EN), после записи слух открыт — гость отвечает; после «паузы» ✋.
      Копия пульта ninjaone-bot (= timberjacks-gastgeber = vives-bot, стенд кнопок 40/40). Отличия: мозг, префикс памяти,
@@ -20,7 +20,7 @@
 <!-- иначе браузер тихо держит старую версию пульта после правок -->
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<title>Пульт Tacto · BME-Symposium</title>
+<title>Пульт Tacto-Bot · BME-Symposium</title>
 <!-- «Добавить на экран Домой» → иконка и полноэкранный режим, как у обычного приложения -->
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon.png">
@@ -28,7 +28,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Tacto">
+<meta name="apple-mobile-web-app-title" content="Tacto-Bot">
 <meta name="theme-color" content="#14161a">
 <style>
   :root {
@@ -122,7 +122,7 @@
 </style>
 </head>
 <body>
-  <h1>🏭 Tacto — BME-Symposium</h1>
+  <h1>🏭 Tacto-Bot — BME-Symposium</h1>
 
   <div id="status">
     <span class="dot" id="connDot"></span><span id="connText">не подключено</span>
@@ -326,8 +326,8 @@
 // новый префикс ns (см. предупреждение ниже), свой agent, свои режимы и кнопки.
 // записи пульта — слово в слово из teksty.json робота, голос и настройки мозга; сверены распознаванием
 const _K = {
-  privet_de: { label: "🇩🇪 Привет", data: 'clips/de/privet.mp3', text: "Guten Tag! Schön, dass Sie da sind. Ich bin der Roboter-Botschafter von Tacto." },
-  privet_en: { label: "🇬🇧 Привет", data: 'clips/en/privet.mp3', text: "Hello! Great to have you here. I'm the robot ambassador of Tacto." },
+  privet_de: { label: "🇩🇪 Привет", data: 'clips/de/privet.mp3', text: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter und Botschafter von Tacto." },
+  privet_en: { label: "🇬🇧 Привет", data: 'clips/en/privet.mp3', text: "Hello! Great to have you here. I'm Tacto-Bot — an AI robot and ambassador of Tacto." },
   naeher_de: { label: "🇩🇪 Подойдите ближе", data: 'clips/de/naeher.mp3', text: "Kommen Sie ruhig näher. Hier bei Tacto treffen Atoms auf Bits." },
   naeher_en: { label: "🇬🇧 Подойдите ближе", data: 'clips/en/naeher.mp3', text: "Come on over. Here at Tacto, atoms meet bits." },
   foto_de: { label: "🇩🇪 Фото", data: 'clips/de/foto.mp3', text: "Ein Foto mit mir? Sehr gern, ich halte still." },
@@ -356,9 +356,9 @@ const _K = {
 const ROBOT = {
   ns: 'tacto:',                                     // префикс памяти браузера — СВОЙ у каждого пульта (домен GitHub Pages общий)
   agent: 'agent_4601m7nnqrpxe0krx7k8hhzf5p4j',  // мозг робота (deploy_robot.py --robot tacto)
-  title: 'Tacto · BME-Symposium',
-  version: '18.11.2026 Tacto · 1',
-  dayCtx: "61. BME-Symposium Einkauf und Logistik, STATION Berlin, am Stand von Tacto. Du bist der Roboter-Botschafter von Tacto. Behandle jeden, der mit dir spricht, wie einen Besucher am Tacto-Stand — per Sie, bis er dich duzt. Deine Kolleginnen und Kollegen von Tacto sind am Stand.",
+  title: 'Tacto-Bot · BME-Symposium',
+  version: '18.11.2026 Tacto-Bot · 2',
+  dayCtx: "61. BME-Symposium Einkauf und Logistik, STATION Berlin, Stand B31 in Halle 4 (Tacto). Du bist der Tacto-Bot, der Roboter-Botschafter von Tacto. Behandle jeden, der mit dir spricht, wie einen Besucher am Tacto-Stand — per Sie, bis er dich duzt. Deine Kolleginnen und Kollegen von Tacto sind am Stand.",
   tishinaPosleZapisi: false,   // стенд: после записи робот слушает ответ гостя; сцена (1B, Robby) — ✋
   startTiho: false,   // Robby-сцена: после (пере)подключения глухой, пока не «🔊 ПРОДОЛЖИТЬ»
   // 24.10 (Макс): «Заговорить первым» = записанное приветствие, каждый раз СЛЕДУЮЩЕЕ по кругу (AfO — 12 с 27.10) — люди вокруг
@@ -368,23 +368,23 @@ const ROBOT = {
   clips: Object.values(_K),
   cards: [
     { id: "A", nav: "Привет", num: "1", q: "Привет и к стенду", qru: "привет · подойдите · фото", items: [
-      { name: "Привет", dur: 5, first: "Guten Tag! Schön, dass Sie da sind. Ich bin der Roboter-Botschafter von Tacto.", de: _K.privet_de, en: _K.privet_en },
+      { name: "Привет", dur: 8, first: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter …", de: _K.privet_de, en: _K.privet_en },
       { name: "Подойдите ближе", dur: 5, first: "Kommen Sie ruhig näher. Hier bei Tacto treffen Atoms auf Bits.", de: _K.naeher_de, en: _K.naeher_en },
       { name: "Фото", dur: 5, first: "Ein Foto mit mir? Sehr gern, ich halte still.", de: _K.foto_de, en: _K.foto_en } ] },
     { id: "B", nav: "Tacto", num: "2", q: "Tacto одной фразой и доказательства", qru: "главная фраза · Kern Liebers · кран", items: [
       { name: "Tacto одной фразой", dur: 7, first: "Tacto baut Industrial AI für den Einkauf der produzierenden Industrie. Erst …", de: _K.satz_de, en: _K.satz_en },
-      { name: "Kern Liebers (цифры)", dur: 11, first: "Kern Liebers hat mit Tacto im ersten Jahr über 3 % auf 210 Millionen Euro …", de: _K.beleg_de, en: _K.beleg_en },
+      { name: "Kern Liebers (цифры)", dur: 12, first: "Kern Liebers hat mit Tacto im ersten Jahr über 3 % auf 210 Millionen Euro …", de: _K.beleg_de, en: _K.beleg_en },
       { name: "Пример с краном", dur: 23, first: "Stellen Sie sich vor, ein Unternehmen baut einen Kran und gibt Tacto das …", de: _K.kran_de, en: _K.kran_en } ] },
     { id: "C", nav: "Крючки", num: "3", q: "Вопросы-крючки", qru: "после вопроса гость отвечает — робот слушает сам", items: [
       { name: "Крючок 1: что должно стоить", dur: 7, first: "Kann Ihre KI Ihnen sagen, was ein Teil kosten sollte, wer es herstellen …", de: _K.frage1_de, en: _K.frage1_en },
-      { name: "Крючок 2: Reinigungsmittel", dur: 6, first: "Würden Sie einen Einkäufer, der früher Reinigungsmittel eingekauft hat, Ihre …", de: _K.frage2_de, en: _K.frage2_en },
+      { name: "Крючок 2: Reinigungsmittel", dur: 7, first: "Würden Sie einen Einkäufer, der früher Reinigungsmittel eingekauft hat, Ihre …", de: _K.frage2_de, en: _K.frage2_en },
       { name: "Крючок 3: дошло ли до GuV", dur: 7, first: "Wie viel der Einsparungen, die Ihr letztes Tool gefunden hat, ist wirklich in …", de: _K.frage3_de, en: _K.frage3_en } ] },
     { id: "D", nav: "Дальше", num: "4", q: "Коллеге, приглашение, прощание", qru: "", items: [
       { name: "Передать коллеге", dur: 6, first: "Das zeigt Ihnen meine Kollegin oder mein Kollege von Tacto gern direkt. Darf …", de: _K.kollege_de, en: _K.kollege_en },
-      { name: "Atoms & Bits, апрель 2027", dur: 8, first: "Kommen Sie im April 2027 zu Atoms & Bits auf den Nockherberg in München? Da …", de: _K.atoms_de, en: _K.atoms_en },
+      { name: "Atoms & Bits, апрель 2027", dur: 9, first: "Kommen Sie im April 2027 zu Atoms & Bits auf den Nockherberg in München? Da …", de: _K.atoms_de, en: _K.atoms_en },
       { name: "Прощание", dur: 7, first: "Danke für das Gespräch! Denken Sie dran: Der Wettbewerbsvorteil der Industrie …", de: _K.bye_de, en: _K.bye_en } ] },
     { id: "E", nav: "Пауза", num: "5", q: "Пауза аккумулятора", qru: "после неё робот глухой — «🔊 ПРОДОЛЖИТЬ», когда вернулись", items: [
-      { name: "Пауза аккумулятора", dur: 4, first: "Ich lade kurz meine Batterien auf. In 15 Minuten bin ich wieder ganz für Sie da.", de: _K.pauza_de, en: _K.pauza_en } ] },
+      { name: "Пауза аккумулятора", dur: 5, first: "Ich lade kurz meine Batterien auf. In 15 Minuten bin ich wieder ganz für Sie da.", de: _K.pauza_de, en: _K.pauza_en } ] },
   ],
 
   // Копия пульта 1b-robot (= huk-roboter = ninjaone-bot = vives-bot, решение Макса: пульт — копия лучшего готового).
@@ -396,7 +396,7 @@ const ROBOT = {
   answerCue: '⟦REGIE⟧ ОТВЕЧАЙ. Antworte JETZT auf die letzten Worte des Gastes seit deiner letzten Antwort. '
            + 'Hat der Gast seit deiner letzten Antwort noch nichts Verständliches gesagt: '
            + 'sag NICHTS: ruf skip_turn auf und warte — sobald er spricht, antwortest du ihm. Kein Satz über Nichtverstehen, keine neue Begrüßung.',
-  hello:  'Sprich als Erster, kurz und per Sie: begrüße die Person als Roboter-Botschafter von Tacto und stell eine neugierig machende Frage aus deinem Briefing. Höchstens zwei Sätze, jedes Mal anders.',
+  hello:  'Sprich als Erster, kurz und per Sie: begrüße die Person als Tacto-Bot, KI-Roboter und Botschafter von Tacto, und stell eine neugierig machende Frage aus deinem Briefing. Höchstens zwei Sätze, jedes Mal anders.',
   louder: 'Du hast die Person nicht verstanden. Reagiere nach deiner Stufenregel fürs Nichtverstehen: erstes Mal — kurz in neuen Worten zugeben, EIN kurzer Fakt aus dem Briefing, dann eine neue Frage; zweites Mal in Folge — ein ANDERER Fakt und eine andere einfache Frage; drittes Mal in Folge — es ist zu laut, die Tacto-Kollegen direkt neben dir helfen gern. Nie derselbe Satz wie zuvor, in der Sprache des Gesprächs.',
   bye:    'Verabschiede dich mit einem Satz, per Sie und in der Sprache des Gesprächs: Dank für das Gespräch — und, wenn es passt, der Leitsatz von Tacto in eigenen Worten. Danach ist das Gespräch beendet: wer als Nächstes spricht, ist eine neue Person — nichts aus diesem Gespräch (Name, Firma, Thema) wiederverwenden.',
   ctxCue: 'Anweisung deines Teams (oft auf Russisch) — setz sie JETZT um, deine ersten Worte sind schon die Szene, in der Sprache des Gesprächs, ohne Bestätigung:',
@@ -657,7 +657,7 @@ function releaseBoard(msg){
   if(msg) log(msg);
 }
 // 1B (аудит 19.10): записи сцены — в память телефона сразу при открытии пульта. Сцене не нужен мозг — пусть не нужна и сеть.
-const KLIP_V='1711a';   // переозвучил запись — поменяй метку (урок эфира 21.08)
+const KLIP_V='1711b';   // переозвучил запись — поменяй метку (урок эфира 21.08)
 function klipyVPamyat(){
   const vse=(ROBOT.clips||[]).filter(c=>c.data); let gotovo=0, oshibok=0;
   const pokaz=()=>{ const l=$('board')?.previousElementSibling;
