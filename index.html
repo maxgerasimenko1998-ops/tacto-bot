@@ -338,8 +338,8 @@
 // новый префикс ns (см. предупреждение ниже), свой agent, свои режимы и кнопки.
 // записи пульта — слово в слово из teksty.json робота, голос и настройки мозга; сверены распознаванием
 const _K = {
-  privet_de: { label: "🇩🇪 Привет", data: 'clips/de/privet.mp3', text: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter und Botschafter von Tacto. Was führt Sie heute zum Symposium?" },
-  privet_en: { label: "🇬🇧 Привет", data: 'clips/en/privet.mp3', text: "Hello! Great to have you here. I'm Tacto-Bot — an AI robot and ambassador of Tacto. What brings you to the symposium today?" },
+  privet_de: { label: "🇩🇪 Привет", data: 'clips/de/privet.mp3', text: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter und Botschafter von Tacto. Was führt Sie heute zum Symposium? Hier ist es sehr laut — antworten Sie mir bitte deutlich und so laut wie möglich, sonst höre ich Sie nicht." },
+  privet_en: { label: "🇬🇧 Привет", data: 'clips/en/privet.mp3', text: "Hello! Great to have you here. I'm Tacto-Bot — an AI robot and ambassador of Tacto. What brings you to the symposium today? It's very loud in here — please answer clearly and as loudly as you can, otherwise I won't hear you." },
   naeher_de: { label: "🇩🇪 Подойдите ближе", data: 'clips/de/naeher.mp3', text: "Kommen Sie ruhig näher. Hier bei Tacto treffen Atoms auf Bits." },
   naeher_en: { label: "🇬🇧 Подойдите ближе", data: 'clips/en/naeher.mp3', text: "Come on over. Here at Tacto, atoms meet bits." },
   foto_de: { label: "🇩🇪 Фото", data: 'clips/de/foto.mp3', text: "Ein Foto mit mir? Sehr gern, ich halte still." },
@@ -367,16 +367,16 @@ const _K = {
 };
 // 18.11: фразы пульта без облака (tacto-offline/fraze.json) — сверены распознаванием
 const _OFF = {
-  hallo_1_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-1.mp3', text: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter und Botschafter von Tacto. Was führt Sie heute zum Symposium?" },
-  hallo_1_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-1.mp3', text: "Hello! Great to have you here. I'm Tacto-Bot — an AI robot and ambassador of Tacto. What brings you to the symposium today?" },
-  hallo_2_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-2.mp3', text: "Hallo und willkommen bei Tacto! Ich bin der Tacto-Bot, ein KI-Roboter. Was kaufen Sie hauptsächlich ein: Stahl, Elektronik oder Zeichnungsteile?" },
-  hallo_2_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-2.mp3', text: "Hi, and welcome to Tacto! I'm Tacto-Bot, an AI robot. What do you mainly buy: steel, electronics or drawing parts?" },
-  hallo_3_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-3.mp3', text: "Guten Tag! Ich bin der Tacto-Bot, ein KI-Roboter von Tacto. Verraten Sie mir: Was stellt Ihr Unternehmen her?" },
-  hallo_3_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-3.mp3', text: "Good day! I'm Tacto-Bot, an AI robot from Tacto. Tell me: what does your company make?" },
-  hallo_4_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-4.mp3', text: "Herzlich willkommen am Stand von Tacto! Ich bin der Tacto-Bot, ein KI-Roboter. Was ist gerade Ihre größte Baustelle im Einkauf?" },
-  hallo_4_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-4.mp3', text: "Welcome to the Tacto stand! I'm Tacto-Bot, an AI robot. What's your biggest challenge in procurement right now?" },
-  hallo_5_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-5.mp3', text: "Hallo! Ich bin der Tacto-Bot — ein KI-Roboter. Sind Sie im Einkauf, in der Logistik oder im Supply Chain Management zu Hause?" },
-  hallo_5_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-5.mp3', text: "Hello! I'm Tacto-Bot — an AI robot. Are you in procurement, logistics or supply chain management?" },
+  hallo_1_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-1.mp3', text: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter und Botschafter von Tacto. Was führt Sie heute zum Symposium? Hier ist es sehr laut — antworten Sie mir bitte deutlich und so laut wie möglich, sonst höre ich Sie nicht." },
+  hallo_1_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-1.mp3', text: "Hello! Great to have you here. I'm Tacto-Bot — an AI robot and ambassador of Tacto. What brings you to the symposium today? It's very loud in here — please answer clearly and as loudly as you can, otherwise I won't hear you." },
+  hallo_2_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-2.mp3', text: "Hallo und willkommen bei Tacto! Ich bin der Tacto-Bot, ein KI-Roboter. Was kaufen Sie hauptsächlich ein: Stahl, Elektronik oder Zeichnungsteile? Kleine Bitte: Hier ist es sehr laut, also sprechen Sie bitte klar und richtig laut — sonst höre ich Sie nicht." },
+  hallo_2_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-2.mp3', text: "Hi, and welcome to Tacto! I'm Tacto-Bot, an AI robot. What do you mainly buy: steel, electronics or drawing parts? A small request: it's very loud in here, so please speak clearly and really loudly — otherwise I won't hear you." },
+  hallo_3_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-3.mp3', text: "Guten Tag! Ich bin der Tacto-Bot, ein KI-Roboter von Tacto. Verraten Sie mir: Was stellt Ihr Unternehmen her? Und weil es hier sehr laut ist: Bitte sprechen Sie deutlich und so laut Sie können, sonst höre ich Sie nicht." },
+  hallo_3_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-3.mp3', text: "Good day! I'm Tacto-Bot, an AI robot from Tacto. Tell me: what does your company make? And because it's very loud in here: please speak clearly and as loudly as you can, otherwise I won't hear you." },
+  hallo_4_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-4.mp3', text: "Herzlich willkommen am Stand von Tacto! Ich bin der Tacto-Bot, ein KI-Roboter. Was ist gerade Ihre größte Baustelle im Einkauf? Hier ist es sehr laut — meine Bitte: Sprechen Sie deutlich und möglichst laut, sonst höre ich Sie nicht." },
+  hallo_4_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-4.mp3', text: "Welcome to the Tacto stand! I'm Tacto-Bot, an AI robot. What's your biggest challenge in procurement right now? It's very loud in here — my request: speak clearly and as loudly as possible, otherwise I won't hear you." },
+  hallo_5_de: { label: "📴 Привет + вопрос о нём · DE", data: 'clips/off/de/hallo-5.mp3', text: "Hallo! Ich bin der Tacto-Bot — ein KI-Roboter. Sind Sie im Einkauf, in der Logistik oder im Supply Chain Management zu Hause? Achtung, hier ist es sehr laut: Bitte antworten Sie deutlich und so laut wie möglich, sonst höre ich Sie nicht." },
+  hallo_5_en: { label: "📴 Привет + вопрос о нём · EN", data: 'clips/off/en/hallo-5.mp3', text: "Hello! I'm Tacto-Bot — an AI robot. Are you in procurement, logistics or supply chain management? Heads up, it's very loud in here: please answer clearly and as loudly as possible, otherwise I won't hear you." },
   hoere_1_de: { label: "📴 Слышишь меня? — Да · DE", data: 'clips/off/de/hoere-1.mp3', text: "Ja, ich höre Sie! Fragen Sie mich ruhig, was Tacto für den Einkauf macht." },
   hoere_1_en: { label: "📴 Слышишь меня? — Да · EN", data: 'clips/off/en/hoere-1.mp3', text: "Yes, I can hear you! Go ahead and ask me what Tacto does for procurement." },
   laut_1_de: { label: "📴 Не расслышал — повтори · DE", data: 'clips/off/de/laut-1.mp3', text: "Pardon, hier ist es gerade etwas laut. Kommen Sie ruhig einen Schritt näher und sagen Sie es bitte noch einmal." },
@@ -524,7 +524,7 @@ const ROBOT = {
   ns: 'tacto:',                                     // префикс памяти браузера — СВОЙ у каждого пульта (домен GitHub Pages общий)
   agent: 'agent_4601m7nnqrpxe0krx7k8hhzf5p4j',  // мозг робота (deploy_robot.py --robot tacto)
   title: 'Tacto-Bot · BME-Symposium',
-  version: '18.11.2026 Tacto-Bot · 5',
+  version: '18.11.2026 Tacto-Bot · 6',
   dayCtx: "61. BME-Symposium Einkauf und Logistik, STATION Berlin, Stand B31 in Halle 4 (Tacto). Du bist der Tacto-Bot, der Roboter-Botschafter von Tacto. Behandle jeden, der mit dir spricht, wie einen Besucher am Tacto-Stand — per Sie, bis er dich duzt. Deine Kolleginnen und Kollegen von Tacto sind am Stand.",
   tishinaPosleZapisi: false,   // стенд: после записи робот слушает ответ гостя; сцена (1B, Robby) — ✋
   startTiho: false,   // Robby-сцена: после (пере)подключения глухой, пока не «🔊 ПРОДОЛЖИТЬ»
@@ -606,7 +606,7 @@ const ROBOT = {
   knopkiZapisi: {"qaHello": "hallo", "qaLouder": "laut", "qaBye": "bye"},
   cards: [
     { id: "A", nav: "Привет", num: "1", q: "Привет и к стенду", qru: "привет · подойдите · фото", items: [
-      { name: "Привет", dur: 9, first: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter …", de: _K.privet_de, en: _K.privet_en },
+      { name: "Привет", dur: 16, first: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter …", de: _K.privet_de, en: _K.privet_en },
       { name: "Подойдите ближе", dur: 5, first: "Kommen Sie ruhig näher. Hier bei Tacto treffen Atoms auf Bits.", de: _K.naeher_de, en: _K.naeher_en },
       { name: "Фото", dur: 4, first: "Ein Foto mit mir? Sehr gern, ich halte still.", de: _K.foto_de, en: _K.foto_en } ] },
     { id: "B", nav: "Tacto", num: "2", q: "Tacto одной фразой и доказательства", qru: "главная фраза · Kern Liebers · кран", items: [
@@ -672,7 +672,7 @@ const $ = id => document.getElementById(id);
 // проверка через WebRTC: микрофон закрыт до начала ответа → ответ через 7 с и
 // ровно на слова гостя. Автоответ по тишине (переключатель) убран — одна кнопка.
 let otvechajDerzhit = false;          // после ОТВЕЧАЙ микрофон закрыт до начала ответа
-const OTVECHAJ_MAX_MS = 15000;        // страховка: дольше робот не молчит — вернуть слух
+const OTVECHAJ_MAX_MS = 8000;         // страховка: дольше робот не молчит — вернуть слух (18.11: было 15 с — гость повторял в закрытый микрофон)
 let _gain=null, _ac=null, _ist=null;
 const USILENIE = 5.2;   // 27.10 ×4, 29.10 +30% (Макс: «очень тихие») — через компрессор, чтобы не хрипело               // во сколько раз громче единицы
 function usilitZvuk(){
@@ -895,7 +895,7 @@ function releaseBoard(msg){
   if(msg) log(msg);
 }
 // 1B (аудит 19.10): записи сцены — в память телефона сразу при открытии пульта. Сцене не нужен мозг — пусть не нужна и сеть.
-const KLIP_V='1811c';   // переозвучил запись — поменяй метку (урок эфира 21.08)
+const KLIP_V='1811d';   // переозвучил запись — поменяй метку (урок эфира 21.08)
 function klipyVPamyat(){
   const vse=(ROBOT.clips||[]).filter(c=>c.data); let gotovo=0, oshibok=0;
   const pokaz=()=>{ const l=$('board')?.previousElementSibling;
@@ -1476,6 +1476,7 @@ async function doConnect(isReconnect){
       // Двойной вызов безопасен — handleDisconnect проверяет conv.
       onDisconnect:()=>handleDisconnect(),
       onError:e=>log('⚠️ '+(e?.message||e)),
+      onAgentToolResponse:r=>{ if(r?.tool_name==='skip_turn'){ log('🤐 Робот промолчал — слух открыт'); otpustitOtvechaj(); } },   // 18.11
     });
     // сессия, доехавшая ПОСЛЕ таймаута, никому не нужна — закрываем, иначе
     // на сервере останется висеть второй робот (гонка 29.07)
@@ -2004,7 +2005,14 @@ if((ROBOT.offline||[]).length){
     });
     kart.appendChild(grid);
   });
-  const gk=$('gastBtn')?.closest('.card'); if(gk) gk.after(kart);
+  // 18.11 11:30 (Макс, живой день): три кнопки — сразу под ОТВЕЧАЙ и ХВАТИТ, под ними ЗАДАНИЕ и ГОСТЬ СКАЗАЛ;
+  // все заготовленные фразы (карточки хоткеев и фразы без облака) — в самый низ.
+  try{
+    const st=$('stopTalk'), qc=$('qaHello')?.closest('.card'), cc=$('ctxInput')?.closest('.card'), gc=$('gastBtn')?.closest('.card');
+    if(st && qc){ st.after(qc); if(cc){ qc.after(cc); if(gc) cc.after(gc); } }
+    const lv=$('live'), bc=$('board')?.closest('.card');
+    if(lv){ if(bc) lv.appendChild(bc); lv.appendChild(kart); }
+  }catch(e){ log('⚠️ перестановка кнопок: '+(e?.message||e)); }
   setJZ('de');
   window.__offTacto={ OFFI, setJZ, igrat, jz:()=>JZ };
 }
