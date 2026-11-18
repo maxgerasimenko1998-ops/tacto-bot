@@ -98,6 +98,18 @@
   button.otklik{ background:#1e8449 !important; box-shadow:inset 0 0 0 3px #7be495; transform:scale(.97); transition:transform .08s }
   button.otklik-net{ background:#8e2020 !important; box-shadow:inset 0 0 0 3px #f08080; }
 
+  /* 18.11: язык записей и фразы без облака внизу */
+  .quick button.jz{flex:0 0 76px;font-weight:800;background:var(--card2)}
+  button.jz.jzen{background:#2f6fd6!important;color:#fff}
+  .offh{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .offh button.jz{padding:8px 10px;font-size:14px;font-weight:800;background:var(--card2)}
+  .offg{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);margin:14px 2px 6px}
+  .offgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .offgrid button.offb{position:relative;text-align:left;padding:8px 10px;min-height:56px;border-radius:10px;background:var(--card2);font-size:13px}
+  .offb b{display:block;font-size:13px;line-height:1.25;padding-right:30px}
+  .offb small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11px;font-weight:400;opacity:.7;margin-top:3px}
+  .offb .offv{position:absolute;right:6px;top:5px;font-size:10px;color:var(--gold)}
+  .offgrid button.offb.kdone{opacity:.6}
   /* 22.10: карточки (из пульта 1B) */
   .board .krow button.kueb{background:#2e7d4f}
   .kcard{flex:1 1 100%;background:#171a21;border:1px solid #2b303b;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;scroll-margin-top:62px}
@@ -353,11 +365,164 @@ const _K = {
   pauza_de: { label: "🇩🇪 Пауза аккумулятора", data: 'clips/de/pauza.mp3', hvatit: true, text: "Ich lade kurz meine Batterien auf. In 15 Minuten bin ich wieder ganz für Sie da." },
   pauza_en: { label: "🇬🇧 Пауза аккумулятора", data: 'clips/en/pauza.mp3', hvatit: true, text: "I'm quickly recharging my batteries. In 15 minutes I'm all yours again." },
 };
+// 18.11: фразы пульта без облака (tacto-offline/fraze.json) — сверены распознаванием
+const _OFF = {
+  hallo_2_de: { label: "📴 Привет · DE", data: 'clips/off/de/hallo-2.mp3', text: "Hallo und willkommen bei Tacto! Ich bin der Tacto-Bot, ein KI-Roboter. Was kaufen Sie hauptsächlich ein: Stahl, Elektronik oder Zeichnungsteile?" },
+  hallo_2_en: { label: "📴 Привет · EN", data: 'clips/off/en/hallo-2.mp3', text: "Hi, and welcome to Tacto! I'm Tacto-Bot, an AI robot. What do you mainly buy: steel, electronics or drawing parts?" },
+  hallo_3_de: { label: "📴 Привет · DE", data: 'clips/off/de/hallo-3.mp3', text: "Guten Tag! Ich bin der Tacto-Bot — ein KI-Roboter, und ich erzähle Ihnen gern, was Tacto für den Einkauf der produzierenden Industrie macht." },
+  hallo_3_en: { label: "📴 Привет · EN", data: 'clips/off/en/hallo-3.mp3', text: "Good day! I'm Tacto-Bot — an AI robot, and I'd love to tell you what Tacto does for procurement in manufacturing." },
+  hallo_4_de: { label: "📴 Привет · DE", data: 'clips/off/de/hallo-4.mp3', text: "Guten Tag und herzlich willkommen am Stand von Tacto! Ich bin der Tacto-Bot, ein KI-Roboter. Darf ich Ihnen in einem Satz sagen, was Tacto macht?" },
+  hallo_4_en: { label: "📴 Привет · EN", data: 'clips/off/en/hallo-4.mp3', text: "Good day and welcome to the Tacto stand! I'm Tacto-Bot, an AI robot. May I tell you in one sentence what Tacto does?" },
+  hallo_5_de: { label: "📴 Привет · DE", data: 'clips/off/de/hallo-5.mp3', text: "Hallo! Ich bin der Tacto-Bot — ein KI-Roboter. Und ich habe gleich eine Frage an Sie: Wissen Sie, was jedes Ihrer Teile kosten sollte?" },
+  hallo_5_en: { label: "📴 Привет · EN", data: 'clips/off/en/hallo-5.mp3', text: "Hello! I'm Tacto-Bot — an AI robot. And I have a question for you right away: do you know what each of your parts should cost?" },
+  hoere_1_de: { label: "📴 Слышишь меня? — Да · DE", data: 'clips/off/de/hoere-1.mp3', text: "Ja, ich höre Sie! Fragen Sie mich ruhig, was Tacto für den Einkauf macht." },
+  hoere_1_en: { label: "📴 Слышишь меня? — Да · EN", data: 'clips/off/en/hoere-1.mp3', text: "Yes, I can hear you! Go ahead and ask me what Tacto does for procurement." },
+  laut_1_de: { label: "📴 Не расслышал — повтори · DE", data: 'clips/off/de/laut-1.mp3', text: "Pardon, hier ist es gerade etwas laut. Kommen Sie ruhig einen Schritt näher und sagen Sie es bitte noch einmal." },
+  laut_1_en: { label: "📴 Не расслышал — повтори · EN", data: 'clips/off/en/laut-1.mp3', text: "Sorry, it's a bit loud in here. Please step a little closer and say that again." },
+  laut_2_de: { label: "📴 Не расслышал — повтори · DE", data: 'clips/off/de/laut-2.mp3', text: "Entschuldigung, das ist bei mir nicht ganz angekommen. Noch einmal, bitte — ein bisschen lauter?" },
+  laut_2_en: { label: "📴 Не расслышал — повтори · EN", data: 'clips/off/en/laut-2.mp3', text: "Sorry, I didn't quite catch that. Once more, please — a little louder?" },
+  laut_3_de: { label: "📴 Не расслышал — повтори · DE", data: 'clips/off/de/laut-3.mp3', text: "Wie bitte? Mein Mikrofon hat gerade mit der Halle gekämpft. Sagen Sie es mir bitte noch einmal?" },
+  laut_3_en: { label: "📴 Не расслышал — повтори · EN", data: 'clips/off/en/laut-3.mp3', text: "Sorry? My microphone was just fighting the hall. Could you say that again, please?" },
+  laut_4_de: { label: "📴 Не расслышал — повтори · DE", data: 'clips/off/de/laut-4.mp3', text: "Oh, das habe ich leider nicht verstanden. Sprechen Sie ruhig etwas lauter — ich bin ganz Ohr." },
+  laut_4_en: { label: "📴 Не расслышал — повтори · EN", data: 'clips/off/en/laut-4.mp3', text: "Oh, I'm afraid I didn't understand that. Feel free to speak a bit louder — I'm all ears." },
+  laut_5_de: { label: "📴 Не расслышал — повтори · DE", data: 'clips/off/de/laut-5.mp3', text: "Entschuldigen Sie — bei dem Trubel hier ist das untergegangen. Noch einmal, ganz langsam?" },
+  laut_5_en: { label: "📴 Не расслышал — повтори · EN", data: 'clips/off/en/laut-5.mp3', text: "Excuse me — that got lost in all the bustle here. Once more, nice and slowly?" },
+  moment_1_de: { label: "📴 Секунду… · DE", data: 'clips/off/de/moment-1.mp3', text: "Einen kleinen Moment, bitte." },
+  moment_1_en: { label: "📴 Секунду… · EN", data: 'clips/off/en/moment-1.mp3', text: "Just a moment, please." },
+  moment_2_de: { label: "📴 Секунду… · DE", data: 'clips/off/de/moment-2.mp3', text: "Hmm — gute Frage. Einen Moment." },
+  moment_2_en: { label: "📴 Секунду… · EN", data: 'clips/off/en/moment-2.mp3', text: "Hmm — good question. One moment." },
+  kollege_2_de: { label: "📴 Это — к коллегам · DE", data: 'clips/off/de/kollege-2.mp3', text: "Das weiß ich nicht, aber meine Kolleginnen und Kollegen von Tacto können das genau beantworten. Sie stehen direkt hier am Stand." },
+  kollege_2_en: { label: "📴 Это — к коллегам · EN", data: 'clips/off/en/kollege-2.mp3', text: "I don't know that, but my colleagues from Tacto can answer it precisely. They're right here at the stand." },
+  kollege_3_de: { label: "📴 Это — к коллегам · DE", data: 'clips/off/de/kollege-3.mp3', text: "Es ist wirklich laut hier. Meine Kolleginnen und Kollegen von Tacto stehen direkt am Stand und erklären Ihnen gern alles in Ruhe." },
+  kollege_3_en: { label: "📴 Это — к коллегам · EN", data: 'clips/off/en/kollege-3.mp3', text: "It really is loud in here. My colleagues from Tacto are right here at the stand and will gladly explain everything in peace." },
+  danke_1_de: { label: "📴 Спасибо / на комплимент · DE", data: 'clips/off/de/danke-1.mp3', text: "Vielen Dank — das freut mich sehr!" },
+  danke_1_en: { label: "📴 Спасибо / на комплимент · EN", data: 'clips/off/en/danke-1.mp3', text: "Thank you so much — that makes me happy!" },
+  danke_2_de: { label: "📴 Спасибо / на комплимент · DE", data: 'clips/off/de/danke-2.mp3', text: "Danke! Das Kompliment gebe ich gern an mein Team weiter." },
+  danke_2_en: { label: "📴 Спасибо / на комплимент · EN", data: 'clips/off/en/danke-2.mp3', text: "Thanks! I'll gladly pass that compliment on to my team." },
+  ja_1_de: { label: "📴 Да / согласен / смех · DE", data: 'clips/off/de/ja-1.mp3', text: "Ganz genau." },
+  ja_1_en: { label: "📴 Да / согласен / смех · EN", data: 'clips/off/en/ja-1.mp3', text: "Exactly." },
+  ja_2_de: { label: "📴 Да / согласен / смех · DE", data: 'clips/off/de/ja-2.mp3', text: "Da haben Sie völlig recht." },
+  ja_2_en: { label: "📴 Да / согласен / смех · EN", data: 'clips/off/en/ja-2.mp3', text: "You're absolutely right." },
+  ja_3_de: { label: "📴 Да / согласен / смех · DE", data: 'clips/off/de/ja-3.mp3', text: "Der war gut!" },
+  ja_3_en: { label: "📴 Да / согласен / смех · EN", data: 'clips/off/en/ja-3.mp3', text: "Good one!" },
+  foto_2_de: { label: "📴 Фото · DE", data: 'clips/off/de/foto-2.mp3', text: "Sehr gern! Ich stelle mich in Pose — bitte recht freundlich." },
+  foto_2_en: { label: "📴 Фото · EN", data: 'clips/off/en/foto-2.mp3', text: "Gladly! I'll strike a pose — big smiles, please." },
+  bye_2_de: { label: "📴 Пока · DE", data: 'clips/off/de/bye-2.mp3', text: "Schön, dass Sie da waren! Einen erfolgreichen Tag auf dem Symposium." },
+  bye_2_en: { label: "📴 Пока · EN", data: 'clips/off/en/bye-2.mp3', text: "Great that you stopped by! Have a successful day at the symposium." },
+  bye_3_de: { label: "📴 Пока · DE", data: 'clips/off/de/bye-3.mp3', text: "Auf Wiedersehen! Und denken Sie dran: Bauchgefühl ist kein Kostenmodell." },
+  bye_3_en: { label: "📴 Пока · EN", data: 'clips/off/en/bye-3.mp3', text: "Goodbye! And remember: gut feeling is not a cost model." },
+  bye_4_de: { label: "📴 Пока · DE", data: 'clips/off/de/bye-4.mp3', text: "Vielen Dank für Ihre Zeit! Und wenn Sie mehr wissen wollen: Meine Kolleginnen und Kollegen von Tacto sind direkt hier am Stand." },
+  bye_4_en: { label: "📴 Пока · EN", data: 'clips/off/en/bye-4.mp3', text: "Thank you for your time! And if you'd like to know more: my colleagues from Tacto are right here at the stand." },
+  bye_5_de: { label: "📴 Пока · DE", data: 'clips/off/de/bye-5.mp3', text: "Es war mir eine Freude! Einen schönen Tag noch — und denken Sie dran: Jedes Teil. Der richtige Preis." },
+  bye_5_en: { label: "📴 Пока · EN", data: 'clips/off/en/bye-5.mp3', text: "It was a pleasure! Have a great day — and remember: every part, the right price." },
+  was_2_de: { label: "📴 Что такое Tacto? · DE", data: 'clips/off/de/was-2.mp3', text: "Tacto gibt jedem Einkäufer das Wissen eines Top-Beraters und eines Spitzeneinkäufers. Wir senken Materialkosten, automatisieren Prozesse und machen den Einkauf zum Werttreiber." },
+  was_2_en: { label: "📴 Что такое Tacto? · EN", data: 'clips/off/en/was-2.mp3', text: "Tacto gives every buyer the knowledge of a top consultant and a top buyer. We lower material costs, automate processes and turn procurement into a real value driver." },
+  was_3_de: { label: "📴 Что такое Tacto? · DE", data: 'clips/off/de/was-3.mp3', text: "Wir wissen, was jedes Teil kosten sollte. Dafür verbindet Tacto Ihre Einkaufsdaten mit Milliarden externer Marktsignale — Rohstoffkurven und jeder Index, den man sich vorstellen kann." },
+  was_3_en: { label: "📴 Что такое Tacto? · EN", data: 'clips/off/en/was-3.mp3', text: "We know what every part should cost. To do that, Tacto connects your purchasing data with billions of external market signals — raw material curves and every index you can imagine." },
+  wer_1_de: { label: "📴 Кто вы? Откуда? · DE", data: 'clips/off/de/wer-1.mp3', text: "Tacto ist zu Hause in München: rund hundertdreißig Mitarbeitende, davon über sechzig KI-Expertinnen und -Experten. Über vierhundert Industrieunternehmen setzen schon auf Tacto." },
+  wer_1_en: { label: "📴 Кто вы? Откуда? · EN", data: 'clips/off/en/wer-1.mp3', text: "Tacto is at home in Munich: around one hundred and thirty people, more than sixty of them AI experts. More than four hundred industrial companies already rely on Tacto." },
+  wer_2_de: { label: "📴 Кто вы? Откуда? · DE", data: 'clips/off/de/wer-2.mp3', text: "Tacto ist kein Softwarehaus, das KI nachrüstet. Tacto ist ein KI-Unternehmen, durch und durch — im Produkt und in der Art, wie jedes Team arbeitet." },
+  wer_2_en: { label: "📴 Кто вы? Откуда? · EN", data: 'clips/off/en/wer-2.mp3', text: "Tacto is not a software house bolting on AI. Tacto is an AI company through and through — in the product and in the way every team works." },
+  fuerwen_1_de: { label: "📴 Для кого? · DE", data: 'clips/off/de/fuerwen-1.mp3', text: "Für die produzierende Industrie — alles, an dessen Ende eine Stückliste steht: Maschinen, Anlagen, Komponenten, Fahrzeuge. Vom kleineren Industrieunternehmen bis zum Konzern mit über zwanzig Milliarden Euro Umsatz." },
+  fuerwen_1_en: { label: "📴 Для кого? · EN", data: 'clips/off/en/fuerwen-1.mp3', text: "For manufacturing — everything that ends in a bill of materials: machines, plants, components, vehicles. From smaller industrial companies to groups with more than twenty billion euros in revenue." },
+  warum_1_de: { label: "📴 Почему закупки? · DE", data: 'clips/off/de/warum-1.mp3', text: "In einem Industrieunternehmen stecken vierzig bis siebzig Prozent der Kosten in Material und Lieferanten. Das ist der größte Hebel — und genau hier lässt sich KI am schnellsten skalieren." },
+  warum_1_en: { label: "📴 Почему закупки? · EN", data: 'clips/off/en/warum-1.mp3', text: "In an industrial company, forty to seventy percent of costs sit in materials and suppliers. That's the biggest lever — and exactly where AI scales fastest." },
+  anders_1_de: { label: "📴 Чем вы лучше? · DE", data: 'clips/off/de/anders-1.mp3', text: "Wir sind nur für die produzierende Industrie gebaut: Stücklisten, Zeichnungen, Should-Costs, Kostenmodelle. Tacto macht nichts anderes." },
+  anders_1_en: { label: "📴 Чем вы лучше? · EN", data: 'clips/off/en/anders-1.mp3', text: "We're built only for manufacturing: bills of materials, drawings, should-costs, cost models. Tacto does nothing else." },
+  anders_2_de: { label: "📴 Чем вы лучше? · DE", data: 'clips/off/de/anders-2.mp3', text: "Automatisierung ist schön, aber sie ist noch keine Einsparung. Den Unterschied macht, wer weiß, was zu verhandeln, zu bündeln und zu zahlen ist." },
+  anders_2_en: { label: "📴 Чем вы лучше? · EN", data: 'clips/off/en/anders-2.mp3', text: "Automation is nice, but it isn't savings yet. The difference is knowing what to negotiate, what to bundle and what to pay." },
+  konkurrent_1_de: { label: "📴 Сравни с конкурентом · DE", data: 'clips/off/de/konkurrent-1.mp3', text: "Andere bewerte ich nicht — ich erzähle lieber, was Tacto macht: Industrial AI, nur für die produzierende Industrie." },
+  konkurrent_1_en: { label: "📴 Сравни с конкурентом · EN", data: 'clips/off/en/konkurrent-1.mp3', text: "I don't rate others — I'd rather tell you what Tacto does: Industrial AI, built only for manufacturing." },
+  wie_1_de: { label: "📴 Как это работает? · DE", data: 'clips/off/de/wie-1.mp3', text: "Tacto Intelligence hat zwei Ebenen: ein Procurement Brain, das alles weiß, und KI-Agenten, die darauf arbeiten. Der Einkauf entscheidet, die Agenten setzen um." },
+  wie_1_en: { label: "📴 Как это работает? · EN", data: 'clips/off/en/wie-1.mp3', text: "Tacto Intelligence has two layers: a procurement brain that knows everything, and AI agents working on top of it. Procurement decides, the agents execute." },
+  kontrolle_1_de: { label: "📴 А кто решает? Человек? · DE", data: 'clips/off/de/kontrolle-1.mp3', text: "Der Mensch behält die Kontrolle: Für jeden Schritt lässt sich einstellen, ob ein Einkäufer freigibt oder der Agent selbstständig weitermacht. Menschen steuern, Agenten führen aus." },
+  kontrolle_1_en: { label: "📴 А кто решает? Человек? · EN", data: 'clips/off/en/kontrolle-1.mp3', text: "People stay in control: for every step you can set whether a buyer approves or the agent carries on by itself. People steer, agents execute." },
+  partner_1_de: { label: "📴 Партнёры, инвесторы · DE", data: 'clips/off/de/partner-1.mp3', text: "Tacto entwickelt Frontier AI mit Partnern wie Siemens, OpenAI, Anthropic und Nvidia. Eingesammelt wurden über fünfzig Millionen Euro, unter anderem von Sequoia und Index Ventures." },
+  partner_1_en: { label: "📴 Партнёры, инвесторы · EN", data: 'clips/off/en/partner-1.mp3', text: "Tacto develops frontier AI with partners like Siemens, OpenAI, Anthropic and Nvidia. It has raised more than fifty million euros, among others from Sequoia and Index Ventures." },
+  europa_1_de: { label: "📴 Европа отстала? · DE", data: 'clips/off/de/europa-1.mp3', text: "Europa war schon immer stark in der Welt der Atoms — Maschinen, Anlagen, Stahl. Jetzt treffen Atoms auf Bits, und genau da bauen wir die nächste Ära der Industrie." },
+  europa_1_en: { label: "📴 Европа отстала? · EN", data: 'clips/off/en/europa-1.mp3', text: "Europe has always been strong in the world of atoms — machines, plants, steel. Now atoms meet bits, and that's exactly where we're building the next era of industry." },
+  europa_2_de: { label: "📴 Европа отстала? · DE", data: 'clips/off/de/europa-2.mp3', text: "Intelligenz wird bald im Überfluss da sein. Was knapp bleibt, sind die Dinge, die man anfassen kann — und die baut Europa richtig gut." },
+  europa_2_en: { label: "📴 Европа отстала? · EN", data: 'clips/off/en/europa-2.mp3', text: "Intelligence will soon be abundant. What stays scarce are the things you can touch — and Europe builds those really well." },
+  schnitt_1_de: { label: "📴 Сколько экономят в среднем · DE", data: 'clips/off/de/schnitt-1.mp3', text: "Über vierhundert Industrieunternehmen arbeiten schon mit Tacto. Im Schnitt finden wir über eins Komma drei Millionen Euro Einsparpotenzial pro Jahr." },
+  schnitt_1_en: { label: "📴 Сколько экономят в среднем · EN", data: 'clips/off/en/schnitt-1.mp3', text: "More than four hundred industrial companies already work with Tacto. On average, we find more than one point three million euros of savings potential per year." },
+  verhandlung_1_de: { label: "📴 Переговоры: минуты, ×3 · DE", data: 'clips/off/de/verhandlung-1.mp3', text: "Eine Verhandlung vorzubereiten kostet oft über zehn Stunden. Mit Tacto sind es Minuten — und das Team verhandelt dreimal so viele Lieferanten." },
+  verhandlung_1_en: { label: "📴 Переговоры: минуты, ×3 · EN", data: 'clips/off/en/verhandlung-1.mp3', text: "Preparing a negotiation often takes more than ten hours. With Tacto it takes minutes — and the team negotiates three times as many suppliers." },
+  beweis_1_de: { label: "📴 Докажите! (пилот) · DE", data: 'clips/off/de/beweis-1.mp3', text: "Wir beweisen, was wir versprechen. Sie sehen die Ergebnisse auf Ihren eigenen Daten, bevor Sie kaufen — und Tacto liefert, bis die Einsparungen in der GuV ankommen." },
+  beweis_1_en: { label: "📴 Докажите! (пилот) · EN", data: 'clips/off/en/beweis-1.mp3', text: "We prove what we pitch. You see the results on your own data before you buy — and Tacto delivers until the savings land in your P&L." },
+  zeichnung_1_de: { label: "📴 Чертёжные детали · DE", data: 'clips/off/de/zeichnung-1.mp3', text: "Bei Zeichnungsteilen liest die KI die Zeichnung aus, erkennt Material, Verfahren und Toleranzen und berechnet einen Zielpreis. Das bringt fünf bis fünfzehn Prozent Einsparung auf das Zeichnungsteil-Volumen." },
+  zeichnung_1_en: { label: "📴 Чертёжные детали · EN", data: 'clips/off/en/zeichnung-1.mp3', text: "For drawing parts, the AI reads the drawing, recognises material, process and tolerances and calculates a target price. That brings five to fifteen percent savings on the drawing-part volume." },
+  muffe_1_de: { label: "📴 Пример: муфта −40 % · DE", data: 'clips/off/de/muffe-1.mp3', text: "Ein Beispiel aus einer Preisanfrage: Eine Muffe ging von fünfhundertdreiundachtzig Euro vierzig auf dreihundertfünfzig Euro — minus vierzig Prozent." },
+  muffe_1_en: { label: "📴 Пример: муфта −40 % · EN", data: 'clips/off/en/muffe-1.mp3', text: "An example from a request for quotation: a coupling sleeve went from five hundred eighty-three euros forty to three hundred fifty euros — minus forty percent." },
+  lieferant_1_de: { label: "📴 Поставщики, закон о цепочках · DE", data: 'clips/off/de/lieferant-1.mp3', text: "Mit Tacto liegen alle Lieferanteninfos an einem Ort — auditfähig auf Knopfdruck. Und Tacto deckt alle Pflichten des Lieferkettengesetzes ab, rechtlich geprüft durch die Kanzlei Taylor Wessing." },
+  lieferant_1_en: { label: "📴 Поставщики, закон о цепочках · EN", data: 'clips/off/en/lieferant-1.mp3', text: "With Tacto, all supplier information sits in one place — audit-ready at the push of a button. And Tacto covers all duties of the German Supply Chain Act, legally reviewed by the law firm Taylor Wessing." },
+  bestand_1_de: { label: "📴 Склад, капитал · DE", data: 'clips/off/de/bestand-1.mp3', text: "Der Inventory Agent berechnet jeden Monat die optimalen Bestellparameter. Das sind zehn bis fünfzehn Prozent weniger Kapitalbindung — ohne Abstriche bei der Versorgungssicherheit." },
+  bestand_1_en: { label: "📴 Склад, капитал · EN", data: 'clips/off/en/bestand-1.mp3', text: "The inventory agent recalculates the optimal order parameters every month. That's ten to fifteen percent less tied-up capital — without compromising security of supply." },
+  frage5_1_de: { label: "📴 Что вы закупаете? · DE", data: 'clips/off/de/frage5-1.mp3', text: "Was kaufen Sie hauptsächlich ein: Stahl, Elektronik oder Zeichnungsteile?" },
+  frage5_1_en: { label: "📴 Что вы закупаете? · EN", data: 'clips/off/en/frage5-1.mp3', text: "What do you mainly buy: steel, electronics or drawing parts?" },
+  frage4_1_de: { label: "📴 Поставщики уже с ИИ — вы готовы? · DE", data: 'clips/off/de/frage4-1.mp3', text: "Ihre Lieferanten nutzen schon KI. Ist Ihre Organisation bereit, damit zu arbeiten?" },
+  frage4_1_en: { label: "📴 Поставщики уже с ИИ — вы готовы? · EN", data: 'clips/off/en/frage4-1.mp3', text: "Your suppliers already use AI. Is your organisation ready to work with it?" },
+  frage6_1_de: { label: "📴 Зачем ИИ останавливаться на закупках? · DE", data: 'clips/off/de/frage6-1.mp3', text: "Wenn Ihre KI jedes Teil und jeden Lieferanten kennt — warum sollte sie beim Einkauf aufhören?" },
+  frage6_1_en: { label: "📴 Зачем ИИ останавливаться на закупках? · EN", data: 'clips/off/en/frage6-1.mp3', text: "If your AI knows every part and every supplier — why should it stop at procurement?" },
+  spannend_1_de: { label: "📴 Интересно! (по кругу) · DE", data: 'clips/off/de/spannend-1.mp3', text: "Spannend! Genau da steckt bei vielen Herstellern der größte Hebel." },
+  spannend_1_en: { label: "📴 Интересно! (по кругу) · EN", data: 'clips/off/en/spannend-1.mp3', text: "Interesting! That's exactly where many manufacturers have their biggest lever." },
+  spannend_2_de: { label: "📴 Интересно! (по кругу) · DE", data: 'clips/off/de/spannend-2.mp3', text: "Das höre ich oft — und genau dafür ist Tacto gebaut." },
+  spannend_2_en: { label: "📴 Интересно! (по кругу) · EN", data: 'clips/off/en/spannend-2.mp3', text: "I hear that a lot — and that's exactly what Tacto is built for." },
+  spannend_3_de: { label: "📴 Интересно! (по кругу) · DE", data: 'clips/off/de/spannend-3.mp3', text: "Dann sind Sie bei Tacto genau richtig. Meine Kolleginnen und Kollegen zeigen Ihnen gern, wie das bei Ihnen aussehen könnte." },
+  spannend_3_en: { label: "📴 Интересно! (по кругу) · EN", data: 'clips/off/en/spannend-3.mp3', text: "Then you've come to the right place. My colleagues will gladly show you what that could look like for you." },
+  stahl_1_de: { label: "📴 Сказал: сталь / детали / электроника · DE", data: 'clips/off/de/stahl-1.mp3', text: "Stahl, Drehteile, Elektronik — genau das versteht Tacto: jedes Teil, jeden Lieferanten, jeden Kostentreiber. Jedes Teil. Der richtige Preis." },
+  stahl_1_en: { label: "📴 Сказал: сталь / детали / электроника · EN", data: 'clips/off/en/stahl-1.mp3', text: "Steel, turned parts, electronics — that's exactly what Tacto understands: every part, every supplier, every cost driver. Every part. The right price." },
+  logistik_1_de: { label: "📴 Сказал: логистика / не закупки · DE", data: 'clips/off/de/logistik-1.mp3', text: "Dann wird es spannend: Von den Materialkosten geht Tacto weiter in angrenzende Bereiche — Qualität, Logistik, Cost Engineering und Vertrieb." },
+  logistik_1_en: { label: "📴 Сказал: логистика / не закупки · EN", data: 'clips/off/en/logistik-1.mp3', text: "Then it gets interesting: from material costs, Tacto moves on into neighbouring areas — quality, logistics, cost engineering and sales." },
+  preis_1_de: { label: "📴 Цена, лицензия · DE", data: 'clips/off/de/preis-1.mp3', text: "Preise und Lizenzen kenne ich nicht — aber meine Kolleginnen und Kollegen von Tacto können das genau beantworten. Sie stehen direkt hier am Stand." },
+  preis_1_en: { label: "📴 Цена, лицензия · EN", data: 'clips/off/en/preis-1.mp3', text: "I don't know prices and licences — but my colleagues from Tacto can answer that precisely. They're right here at the stand." },
+  daten_1_de: { label: "📴 Данные, DSGVO, безопасность · DE", data: 'clips/off/de/daten-1.mp3', text: "Datenschutz und IT-Sicherheit erklären Ihnen meine Kolleginnen und Kollegen von Tacto ganz genau — direkt hier am Stand." },
+  daten_1_en: { label: "📴 Данные, DSGVO, безопасность · EN", data: 'clips/off/en/daten-1.mp3', text: "My colleagues from Tacto will explain data protection and IT security to you in detail — right here at the stand." },
+  programm_1_de: { label: "📴 Программа симпозиума · DE", data: 'clips/off/de/programm-1.mp3', text: "Das steht im Programm des Symposiums — und am Tacto-Stand helfen Ihnen meine Kolleginnen und Kollegen gern weiter." },
+  programm_1_en: { label: "📴 Программа симпозиума · EN", data: 'clips/off/en/programm-1.mp3', text: "That's in the symposium programme — and at the Tacto stand my colleagues are happy to help." },
+  jobs_1_de: { label: "📴 Вакансии, контакты, сроки · DE", data: 'clips/off/de/jobs-1.mp3', text: "Stellen, Termine und Ansprechpartner kenne ich nicht — aber meine Kolleginnen und Kollegen von Tacto können das genau beantworten." },
+  jobs_1_en: { label: "📴 Вакансии, контакты, сроки · EN", data: 'clips/off/en/jobs-1.mp3', text: "I don't know about jobs, dates or contact persons — but my colleagues from Tacto can answer that precisely." },
+  name_1_de: { label: "📴 Как зовут? Кто ты? · DE", data: 'clips/off/de/name-1.mp3', text: "Ich bin der Tacto-Bot — ein KI-Roboter und der Botschafter von Tacto hier an Stand B31 in Halle 4." },
+  name_1_en: { label: "📴 Как зовут? Кто ты? · EN", data: 'clips/off/en/name-1.mp3', text: "I'm Tacto-Bot — an AI robot and Tacto's ambassador here at stand B31 in hall 4." },
+  ki_1_de: { label: "📴 Ты ИИ? Кто управляет? · DE", data: 'clips/off/de/ki-1.mp3', text: "Ja — ich bin ein humanoider Roboter mit einem KI-System, und im Hintergrund hilft mir ein Team. Ganz ehrlich: Menschen steuern, Agenten führen aus — so arbeitet auch Tacto." },
+  ki_1_en: { label: "📴 Ты ИИ? Кто управляет? · EN", data: 'clips/off/en/ki-1.mp3', text: "Yes — I'm a humanoid robot with an AI system, and a team helps me in the background. Honestly: people steer, agents execute — that's how Tacto works too." },
+  mensch_1_de: { label: "📴 Внутри человек? · DE", data: 'clips/off/de/mensch-1.mp3', text: "Nein, da drin sitzt niemand — ich bin ein echter Roboter. Aber ein Team im Hintergrund passt auf mich auf." },
+  mensch_1_en: { label: "📴 Внутри человек? · EN", data: 'clips/off/en/mensch-1.mp3', text: "No, there's nobody inside — I'm a real robot. But a team in the background keeps an eye on me." },
+  gebaut_1_de: { label: "📴 Кто тебя привёз? · DE", data: 'clips/off/de/gebaut-1.mp3', text: "Mein Team von Robotollern hat mich hergebracht. Am liebsten erzähle ich aber von Tacto." },
+  gebaut_1_en: { label: "📴 Кто тебя привёз? · EN", data: 'clips/off/en/gebaut-1.mp3', text: "My team from Robotollern brought me here. But what I love talking about most is Tacto." },
+  kann_1_de: { label: "📴 Что ты умеешь? · DE", data: 'clips/off/de/kann-1.mp3', text: "Ich erkläre Ihnen, was Tacto für den Einkauf macht — kurz und ehrlich. Und für alles Weitere sind meine Kolleginnen und Kollegen von Tacto direkt hier am Stand." },
+  kann_1_en: { label: "📴 Что ты умеешь? · EN", data: 'clips/off/en/kann-1.mp3', text: "I explain what Tacto does for procurement — short and honest. And for everything else, my colleagues from Tacto are right here at the stand." },
+  tanz_1_de: { label: "📴 Танец (включи в приложении) · DE", data: 'clips/off/de/tanz-1.mp3', text: "Ein kleines Tänzchen? Na gut — schauen Sie mal!" },
+  tanz_1_en: { label: "📴 Танец (включи в приложении) · EN", data: 'clips/off/en/tanz-1.mp3', text: "A little dance? All right — watch this!" },
+  hand_1_de: { label: "📴 Дай пять / руку · DE", data: 'clips/off/de/hand-1.mp3', text: "Ein High Five? Gern — aber ganz sanft, bitte." },
+  hand_1_en: { label: "📴 Дай пять / руку · EN", data: 'clips/off/en/hand-1.mp3', text: "A high five? Sure — but gently, please." },
+  kaffee_1_de: { label: "📴 Кофе, еда, пиво · DE", data: 'clips/off/de/kaffee-1.mp3', text: "Ich trinke nur Strom — Kaffee wäre schlecht für meine Gelenke." },
+  kaffee_1_en: { label: "📴 Кофе, еда, пиво · EN", data: 'clips/off/en/kaffee-1.mp3', text: "I only drink electricity — coffee would be bad for my joints." },
+  jobangst_1_de: { label: "📴 ИИ заберёт работу? · DE", data: 'clips/off/de/jobangst-1.mp3', text: "Keine Sorge: Bei Tacto gilt — Menschen steuern, Agenten führen aus. Das System liefert die Entscheidungsvorlage, und der Mensch entscheidet." },
+  jobangst_1_en: { label: "📴 ИИ заберёт работу? · EN", data: 'clips/off/en/jobangst-1.mp3', text: "Don't worry: at Tacto, people steer and agents execute. The system prepares the decision, and the human makes it." },
+  englisch_1_en: { label: "📴 Говоришь по-английски? — Да · EN", data: 'clips/off/en/englisch-1.mp3', text: "Yes, of course — I speak English too! What would you like to know about Tacto?" },
+  deutsch_1_de: { label: "📴 Обратно на немецкий · DE", data: 'clips/off/de/deutsch-1.mp3', text: "Gern machen wir auf Deutsch weiter!" },
+  politik_1_de: { label: "📴 Политика · DE", data: 'clips/off/de/politik-1.mp3', text: "Politik überlasse ich den Menschen — ich bleibe beim Einkauf. Da kenne ich mich aus." },
+  politik_1_en: { label: "📴 Политика · EN", data: 'clips/off/en/politik-1.mp3', text: "I leave politics to humans — I'll stick to procurement. That's what I know." },
+  frech_1_de: { label: "📴 Грубость / подкол · DE", data: 'clips/off/de/frech-1.mp3', text: "Autsch! Zum Glück bin ich aus Metall. Darf ich Ihnen trotzdem erzählen, was Tacto für den Einkauf macht?" },
+  frech_1_en: { label: "📴 Грубость / подкол · EN", data: 'clips/off/en/frech-1.mp3', text: "Ouch! Luckily I'm made of metal. May I still tell you what Tacto does for procurement?" },
+  geheim_1_de: { label: "📴 Какая модель? Секреты · DE", data: 'clips/off/de/geheim-1.mp3', text: "Was in mir steckt, bleibt mein kleines Geheimnis. Was in Tacto steckt, erzähle ich Ihnen aber sehr gern." },
+  geheim_1_en: { label: "📴 Какая модель? Секреты · EN", data: 'clips/off/en/geheim-1.mp3', text: "What's inside me stays my little secret. But I'm very happy to tell you what's inside Tacto." },
+  naeher_2_de: { label: "📴 Подходите ближе (↻) · DE", data: 'clips/off/de/naeher-2.mp3', text: "Bauchgefühl ist kein Kostenmodell. Kommen Sie näher — ich erzähle Ihnen, warum." },
+  naeher_2_en: { label: "📴 Подходите ближе (↻) · EN", data: 'clips/off/en/naeher-2.mp3', text: "Gut feeling is not a cost model. Come closer — I'll tell you why." },
+  naeher_3_de: { label: "📴 Подходите ближе (↻) · DE", data: 'clips/off/de/naeher-3.mp3', text: "Jedes Teil. Der richtige Preis. Wollen Sie wissen, wie das geht? Kommen Sie zu Tacto!" },
+  naeher_3_en: { label: "📴 Подходите ближе (↻) · EN", data: 'clips/off/en/naeher-3.mp3', text: "Every part. The right price. Want to know how? Come over to Tacto!" },
+  naeher_4_de: { label: "📴 Подходите ближе (↻) · DE", data: 'clips/off/de/naeher-4.mp3', text: "Pferd oder Supersportwagen? Sie haben die Wahl. Kommen Sie an den Stand von Tacto!" },
+  naeher_4_en: { label: "📴 Подходите ближе (↻) · EN", data: 'clips/off/en/naeher-4.mp3', text: "Horseback or supercar? Your choice. Come to the Tacto stand!" },
+  leitsatz_1_de: { label: "📴 Девиз Tacto · DE", data: 'clips/off/de/leitsatz-1.mp3', text: "Der Wettbewerbsvorteil der Industrie beginnt im Einkauf." },
+  leitsatz_1_en: { label: "📴 Девиз Tacto · EN", data: 'clips/off/en/leitsatz-1.mp3', text: "Industrial advantage starts in procurement." },
+  leitsatz_2_de: { label: "📴 Девиз Tacto · DE", data: 'clips/off/de/leitsatz-2.mp3', text: "Industrial AI. Made in Europe. Built for the world." },
+  leitsatz_2_en: { label: "📴 Девиз Tacto · EN", data: 'clips/off/en/leitsatz-2.mp3', text: "Industrial AI. Made in Europe. Built for the world." },
+};
 const ROBOT = {
   ns: 'tacto:',                                     // префикс памяти браузера — СВОЙ у каждого пульта (домен GitHub Pages общий)
   agent: 'agent_4601m7nnqrpxe0krx7k8hhzf5p4j',  // мозг робота (deploy_robot.py --robot tacto)
   title: 'Tacto-Bot · BME-Symposium',
-  version: '18.11.2026 Tacto-Bot · 3',
+  version: '18.11.2026 Tacto-Bot · 4',
   dayCtx: "61. BME-Symposium Einkauf und Logistik, STATION Berlin, Stand B31 in Halle 4 (Tacto). Du bist der Tacto-Bot, der Roboter-Botschafter von Tacto. Behandle jeden, der mit dir spricht, wie einen Besucher am Tacto-Stand — per Sie, bis er dich duzt. Deine Kolleginnen und Kollegen von Tacto sind am Stand.",
   tishinaPosleZapisi: false,   // стенд: после записи робот слушает ответ гостя; сцена (1B, Robby) — ✋
   startTiho: false,   // Robby-сцена: после (пере)подключения глухой, пока не «🔊 ПРОДОЛЖИТЬ»
@@ -365,7 +530,78 @@ const ROBOT = {
   // слышат разные, не заготовку. Сразу, без мозга; мозгу уходит тихая заметка, что прозвучало.
   privetstviya: [],
 
-  clips: Object.values(_K),
+  clips: Object.values(_K).concat(Object.values(_OFF)),
+  // 18.11 (Tacto): все фразы без облака — внизу пульта; три нижние кнопки играют свои фразы по кругу
+  offline: [
+    { nav: "🆘", ru: "Главное", items: [
+      { id: "hallo", ru: "Привет", v: [{ de: _K.privet_de, en: _K.privet_en }, { de: _OFF.hallo_2_de, en: _OFF.hallo_2_en }, { de: _OFF.hallo_3_de, en: _OFF.hallo_3_en }, { de: _OFF.hallo_4_de, en: _OFF.hallo_4_en }, { de: _OFF.hallo_5_de, en: _OFF.hallo_5_en }] },
+      { id: "hoere", ru: "Слышишь меня? — Да", v: [{ de: _OFF.hoere_1_de, en: _OFF.hoere_1_en }] },
+      { id: "laut", ru: "Не расслышал — повтори", v: [{ de: _OFF.laut_1_de, en: _OFF.laut_1_en }, { de: _OFF.laut_2_de, en: _OFF.laut_2_en }, { de: _OFF.laut_3_de, en: _OFF.laut_3_en }, { de: _OFF.laut_4_de, en: _OFF.laut_4_en }, { de: _OFF.laut_5_de, en: _OFF.laut_5_en }] },
+      { id: "moment", ru: "Секунду…", v: [{ de: _OFF.moment_1_de, en: _OFF.moment_1_en }, { de: _OFF.moment_2_de, en: _OFF.moment_2_en }] },
+      { id: "kollege", ru: "Это — к коллегам", v: [{ de: _K.kollege_de, en: _K.kollege_en }, { de: _OFF.kollege_2_de, en: _OFF.kollege_2_en }, { de: _OFF.kollege_3_de, en: _OFF.kollege_3_en }] },
+      { id: "danke", ru: "Спасибо / на комплимент", v: [{ de: _OFF.danke_1_de, en: _OFF.danke_1_en }, { de: _OFF.danke_2_de, en: _OFF.danke_2_en }] },
+      { id: "ja", ru: "Да / согласен / смех", v: [{ de: _OFF.ja_1_de, en: _OFF.ja_1_en }, { de: _OFF.ja_2_de, en: _OFF.ja_2_en }, { de: _OFF.ja_3_de, en: _OFF.ja_3_en }] },
+      { id: "foto", ru: "Фото", v: [{ de: _K.foto_de, en: _K.foto_en }, { de: _OFF.foto_2_de, en: _OFF.foto_2_en }] },
+      { id: "bye", ru: "Пока", v: [{ de: _K.bye_de, en: _K.bye_en }, { de: _OFF.bye_2_de, en: _OFF.bye_2_en }, { de: _OFF.bye_3_de, en: _OFF.bye_3_en }, { de: _OFF.bye_4_de, en: _OFF.bye_4_en }, { de: _OFF.bye_5_de, en: _OFF.bye_5_en }] },
+      { id: "pauza", ru: "Пауза — батарея", v: [{ de: _K.pauza_de, en: _K.pauza_en }] } ] },
+    { nav: "🏭", ru: "Tacto — что это", items: [
+      { id: "was", ru: "Что такое Tacto?", v: [{ de: _K.satz_de, en: _K.satz_en }, { de: _OFF.was_2_de, en: _OFF.was_2_en }, { de: _OFF.was_3_de, en: _OFF.was_3_en }] },
+      { id: "wer", ru: "Кто вы? Откуда?", v: [{ de: _OFF.wer_1_de, en: _OFF.wer_1_en }, { de: _OFF.wer_2_de, en: _OFF.wer_2_en }] },
+      { id: "fuerwen", ru: "Для кого?", v: [{ de: _OFF.fuerwen_1_de, en: _OFF.fuerwen_1_en }] },
+      { id: "warum", ru: "Почему закупки?", v: [{ de: _OFF.warum_1_de, en: _OFF.warum_1_en }] },
+      { id: "anders", ru: "Чем вы лучше?", v: [{ de: _OFF.anders_1_de, en: _OFF.anders_1_en }, { de: _OFF.anders_2_de, en: _OFF.anders_2_en }] },
+      { id: "konkurrent", ru: "Сравни с конкурентом", v: [{ de: _OFF.konkurrent_1_de, en: _OFF.konkurrent_1_en }] },
+      { id: "wie", ru: "Как это работает?", v: [{ de: _OFF.wie_1_de, en: _OFF.wie_1_en }] },
+      { id: "kontrolle", ru: "А кто решает? Человек?", v: [{ de: _OFF.kontrolle_1_de, en: _OFF.kontrolle_1_en }] },
+      { id: "kran", ru: "История про кран", v: [{ de: _K.kran_de, en: _K.kran_en }] },
+      { id: "partner", ru: "Партнёры, инвесторы", v: [{ de: _OFF.partner_1_de, en: _OFF.partner_1_en }] },
+      { id: "europa", ru: "Европа отстала?", v: [{ de: _OFF.europa_1_de, en: _OFF.europa_1_en }, { de: _OFF.europa_2_de, en: _OFF.europa_2_en }] },
+      { id: "atoms", ru: "Позвать на Atoms & Bits", v: [{ de: _K.atoms_de, en: _K.atoms_en }] } ] },
+    { nav: "📊", ru: "Цифры и примеры", items: [
+      { id: "beleg", ru: "Kern Liebers: 6,66 млн", v: [{ de: _K.beleg_de, en: _K.beleg_en }] },
+      { id: "schnitt", ru: "Сколько экономят в среднем", v: [{ de: _OFF.schnitt_1_de, en: _OFF.schnitt_1_en }] },
+      { id: "verhandlung", ru: "Переговоры: минуты, ×3", v: [{ de: _OFF.verhandlung_1_de, en: _OFF.verhandlung_1_en }] },
+      { id: "beweis", ru: "Докажите! (пилот)", v: [{ de: _OFF.beweis_1_de, en: _OFF.beweis_1_en }] },
+      { id: "zeichnung", ru: "Чертёжные детали", v: [{ de: _OFF.zeichnung_1_de, en: _OFF.zeichnung_1_en }] },
+      { id: "muffe", ru: "Пример: муфта −40 %", v: [{ de: _OFF.muffe_1_de, en: _OFF.muffe_1_en }] },
+      { id: "lieferant", ru: "Поставщики, закон о цепочках", v: [{ de: _OFF.lieferant_1_de, en: _OFF.lieferant_1_en }] },
+      { id: "bestand", ru: "Склад, капитал", v: [{ de: _OFF.bestand_1_de, en: _OFF.bestand_1_en }] } ] },
+    { nav: "❓", ru: "Спросить гостя", items: [
+      { id: "frage5", ru: "Что вы закупаете?", v: [{ de: _OFF.frage5_1_de, en: _OFF.frage5_1_en }] },
+      { id: "frage1", ru: "Знает ли ваш ИИ цену детали?", v: [{ de: _K.frage1_de, en: _K.frage1_en }] },
+      { id: "frage2", ru: "Закупщик моющих средств и сталь?", v: [{ de: _K.frage2_de, en: _K.frage2_en }] },
+      { id: "frage3", ru: "Сколько экономии дошло до прибыли?", v: [{ de: _K.frage3_de, en: _K.frage3_en }] },
+      { id: "frage4", ru: "Поставщики уже с ИИ — вы готовы?", v: [{ de: _OFF.frage4_1_de, en: _OFF.frage4_1_en }] },
+      { id: "frage6", ru: "Зачем ИИ останавливаться на закупках?", v: [{ de: _OFF.frage6_1_de, en: _OFF.frage6_1_en }] } ] },
+    { nav: "💬", ru: "Гость ответил → реакция", items: [
+      { id: "spannend", ru: "Интересно! (по кругу)", v: [{ de: _OFF.spannend_1_de, en: _OFF.spannend_1_en }, { de: _OFF.spannend_2_de, en: _OFF.spannend_2_en }, { de: _OFF.spannend_3_de, en: _OFF.spannend_3_en }] },
+      { id: "stahl", ru: "Сказал: сталь / детали / электроника", v: [{ de: _OFF.stahl_1_de, en: _OFF.stahl_1_en }] },
+      { id: "logistik", ru: "Сказал: логистика / не закупки", v: [{ de: _OFF.logistik_1_de, en: _OFF.logistik_1_en }] } ] },
+    { nav: "🙅", ru: "Не знаю → коллеги", items: [
+      { id: "preis", ru: "Цена, лицензия", v: [{ de: _OFF.preis_1_de, en: _OFF.preis_1_en }] },
+      { id: "daten", ru: "Данные, DSGVO, безопасность", v: [{ de: _OFF.daten_1_de, en: _OFF.daten_1_en }] },
+      { id: "programm", ru: "Программа симпозиума", v: [{ de: _OFF.programm_1_de, en: _OFF.programm_1_en }] },
+      { id: "jobs", ru: "Вакансии, контакты, сроки", v: [{ de: _OFF.jobs_1_de, en: _OFF.jobs_1_en }] } ] },
+    { nav: "🤖", ru: "Про робота", items: [
+      { id: "name", ru: "Как зовут? Кто ты?", v: [{ de: _OFF.name_1_de, en: _OFF.name_1_en }] },
+      { id: "ki", ru: "Ты ИИ? Кто управляет?", v: [{ de: _OFF.ki_1_de, en: _OFF.ki_1_en }] },
+      { id: "mensch", ru: "Внутри человек?", v: [{ de: _OFF.mensch_1_de, en: _OFF.mensch_1_en }] },
+      { id: "gebaut", ru: "Кто тебя привёз?", v: [{ de: _OFF.gebaut_1_de, en: _OFF.gebaut_1_en }] },
+      { id: "kann", ru: "Что ты умеешь?", v: [{ de: _OFF.kann_1_de, en: _OFF.kann_1_en }] },
+      { id: "tanz", ru: "Танец (включи в приложении)", v: [{ de: _OFF.tanz_1_de, en: _OFF.tanz_1_en }] },
+      { id: "hand", ru: "Дай пять / руку", v: [{ de: _OFF.hand_1_de, en: _OFF.hand_1_en }] },
+      { id: "kaffee", ru: "Кофе, еда, пиво", v: [{ de: _OFF.kaffee_1_de, en: _OFF.kaffee_1_en }] },
+      { id: "jobangst", ru: "ИИ заберёт работу?", v: [{ de: _OFF.jobangst_1_de, en: _OFF.jobangst_1_en }] },
+      { id: "englisch", ru: "Говоришь по-английски? — Да", v: [{ en: _OFF.englisch_1_en }] },
+      { id: "deutsch", ru: "Обратно на немецкий", v: [{ de: _OFF.deutsch_1_de }] },
+      { id: "politik", ru: "Политика", v: [{ de: _OFF.politik_1_de, en: _OFF.politik_1_en }] },
+      { id: "frech", ru: "Грубость / подкол", v: [{ de: _OFF.frech_1_de, en: _OFF.frech_1_en }] },
+      { id: "geheim", ru: "Какая модель? Секреты", v: [{ de: _OFF.geheim_1_de, en: _OFF.geheim_1_en }] } ] },
+    { nav: "📣", ru: "Зазывать", items: [
+      { id: "naeher", ru: "Подходите ближе (↻)", v: [{ de: _K.naeher_de, en: _K.naeher_en }, { de: _OFF.naeher_2_de, en: _OFF.naeher_2_en }, { de: _OFF.naeher_3_de, en: _OFF.naeher_3_en }, { de: _OFF.naeher_4_de, en: _OFF.naeher_4_en }] },
+      { id: "leitsatz", ru: "Девиз Tacto", v: [{ de: _OFF.leitsatz_1_de, en: _OFF.leitsatz_1_en }, { de: _OFF.leitsatz_2_de, en: _OFF.leitsatz_2_en }] } ] }
+  ],
+  knopkiZapisi: {"qaHello": "hallo", "qaLouder": "laut", "qaBye": "bye"},
   cards: [
     { id: "A", nav: "Привет", num: "1", q: "Привет и к стенду", qru: "привет · подойдите · фото", items: [
       { name: "Привет", dur: 8, first: "Guten Tag! Schön, dass Sie da sind. Ich bin der Tacto-Bot — ein KI-Roboter …", de: _K.privet_de, en: _K.privet_en },
@@ -657,7 +893,7 @@ function releaseBoard(msg){
   if(msg) log(msg);
 }
 // 1B (аудит 19.10): записи сцены — в память телефона сразу при открытии пульта. Сцене не нужен мозг — пусть не нужна и сеть.
-const KLIP_V='1811a';   // переозвучил запись — поменяй метку (урок эфира 21.08)
+const KLIP_V='1811b';   // переозвучил запись — поменяй метку (урок эфира 21.08)
 function klipyVPamyat(){
   const vse=(ROBOT.clips||[]).filter(c=>c.data); let gotovo=0, oshibok=0;
   const pokaz=()=>{ const l=$('board')?.previousElementSibling;
@@ -1712,6 +1948,63 @@ if((ROBOT.privetstviya||[]).length && $('qaHello')){
     playClip(c, $('qaHello'));
     if(!conv && sessionCfg && !connecting) ensureConn();
   };
+}
+
+// 18.11 (Макс, Tacto): три нижние кнопки — ЗАПИСИ по кругу (по 5 вариантов, номер помнит телефон), язык — кнопка 🇩🇪/🇬🇧;
+// внизу под «ГОСТЬ СКАЗАЛ» — все фразы пульта без облака: на всякий случай, если мозг лёг. Записи играют из памяти
+// телефона — мозг и сеть им не нужны; мозгу уходит тихая заметка, что прозвучало (как у всех записей).
+if((ROBOT.offline||[]).length){
+  const OFFI={};
+  ROBOT.offline.forEach(g=>g.items.forEach(it=>{ OFFI[it.id]=it; let n=0; try{ n=parseInt(LS.get('rot_'+it.id)||'0',10)||0; }catch{} it.idx=n%it.v.length; }));
+  let JZ='de';                                     // язык записей НЕ запоминается: пульт всегда открывается на немецком
+  const bezT=t=>String(t||'').replace(/\[[^\]]*\]/g,'').trim();   // 18.11: без звёздочки-слеша в регулярке — proverit_pult принимал её за конец комментария
+  const klipOff=it=>{ const v=it.v[it.idx%it.v.length]; return v[JZ]||v.de||v.en; };
+  const podp=it=>document.querySelectorAll('[data-off="'+it.id+'"]').forEach(b=>{
+    const sm=b.querySelector('small'); if(sm) sm.textContent=bezT(klipOff(it).text);
+    const r=b.querySelector('.offv'); if(r && it.v.length>1) r.textContent='↻ '+(it.idx%it.v.length+1)+'/'+it.v.length; });
+  function igrat(it, btn){
+    if(boardPlaying && tekKlip && tekKlip===it._igraet){ playClip(tekKlip, btn); return null; }   // ещё раз по играющей — стоп
+    const c=klipOff(it); it._igraet=c;
+    if(it.v.length>1){ it.idx=(it.idx+1)%it.v.length; try{ LS.set('rot_'+it.id, String(it.idx)); }catch{} }
+    playClip(c, btn); setTimeout(()=>podp(it), 60);
+    return c;
+  }
+  const jzKnopki=[];
+  function setJZ(l){ JZ=l; jzKnopki.forEach(b=>{ b.textContent=l==='en'?'🇬🇧 EN':'🇩🇪 DE'; b.classList.toggle('jzen', l==='en'); }); Object.values(OFFI).forEach(podp); }
+  const jzKnopka=()=>{ const b=document.createElement('button'); b.type='button'; b.className='jz'; b.onclick=()=>setJZ(JZ==='de'?'en':'de'); jzKnopki.push(b); return b; };
+  // три нижние кнопки
+  const KZ=ROBOT.knopkiZapisi||{};
+  if($('qaHello')?.parentElement) $('qaHello').parentElement.prepend(jzKnopka());
+  for(const id in KZ){
+    const b=$(id), it=OFFI[KZ[id]]; if(!b||!it) continue;
+    b.dataset.zapisi=String(it.v.length); b.textContent=b.textContent+'  ↻'+it.v.length;
+    b.onclick=()=>{
+      vibrate([35,25,35]);
+      if(quiet) setQuiet(false);                   // как раньше команда: снимает ✋ ХВАТИТ
+      const c=igrat(it, b);
+      if(c && id==='qaBye' && conv){ try{ conv.sendContextualUpdate('Das Gespräch ist beendet: wer als Nächstes spricht, ist eine neue Person — nichts aus diesem Gespräch (Name, Firma, Thema) wiederverwenden.'); }catch{} }
+      if(id==='qaHello' && !conv && sessionCfg && !connecting) ensureConn();
+    };
+  }
+  // все фразы без облака — под «ГОСТЬ СКАЗАЛ»
+  const kart=document.createElement('div'); kart.className='card'; kart.id='offKarta';
+  const h=document.createElement('div'); h.className='offh';
+  const lb=document.createElement('label'); lb.textContent='📴 На всякий случай — фразы без мозга'; h.append(lb, jzKnopka()); kart.appendChild(h);
+  ROBOT.offline.forEach(g=>{
+    const t=document.createElement('div'); t.className='offg'; t.textContent=g.nav+' '+g.ru; kart.appendChild(t);
+    const grid=document.createElement('div'); grid.className='offgrid';
+    g.items.forEach(it=>{
+      const b=document.createElement('button'); b.type='button'; b.className='offb'; b.dataset.off=it.id;
+      const odin=it.v.every(v=>!(v.de&&v.en)) ? (it.v[0].en?'EN':'DE') : '';
+      b.innerHTML='<b>'+_esc(it.ru)+'</b>'+(it.v.length>1||odin?'<span class="offv">'+odin+'</span>':'')+'<small></small>';
+      b.onclick=()=>{ igrat(it, b); b.classList.add('kdone'); };
+      grid.appendChild(b);
+    });
+    kart.appendChild(grid);
+  });
+  const gk=$('gastBtn')?.closest('.card'); if(gk) gk.after(kart);
+  setJZ('de');
+  window.__offTacto={ OFFI, setJZ, igrat, jz:()=>JZ };
 }
 
 // Голосовой ввод задания убран по решению Макса 31.07: на айфоне Chrome
