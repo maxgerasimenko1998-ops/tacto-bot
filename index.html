@@ -524,7 +524,7 @@ const ROBOT = {
   ns: 'tacto:',                                     // префикс памяти браузера — СВОЙ у каждого пульта (домен GitHub Pages общий)
   agent: 'agent_4601m7nnqrpxe0krx7k8hhzf5p4j',  // мозг робота (deploy_robot.py --robot tacto)
   title: 'Tacto-Bot · BME-Symposium',
-  version: '18.11.2026 Tacto-Bot · 8',
+  version: '18.11.2026 Tacto-Bot · 9',
   dayCtx: "61. BME-Symposium Einkauf und Logistik, STATION Berlin, Stand B31 in Halle 4 (Tacto). Du bist der Tacto-Bot, der Roboter-Botschafter von Tacto. Behandle jeden, der mit dir spricht, wie einen Besucher am Tacto-Stand — per Sie, bis er dich duzt. Deine Kolleginnen und Kollegen von Tacto sind am Stand.",
   tishinaPosleZapisi: false,   // стенд: после записи робот слушает ответ гостя; сцена (1B, Robby) — ✋
   startTiho: false,   // Robby-сцена: после (пере)подключения глухой, пока не «🔊 ПРОДОЛЖИТЬ»
@@ -637,7 +637,9 @@ const ROBOT = {
   hello:  'Sprich als Erster, kurz und per Sie: du bist der Tacto-Bot, ein KI-Roboter von Tacto; hier ist es laut — die Person soll laut sprechen; dann frag, was sie über Tacto wissen möchte. Höchstens drei kurze Sätze, jedes Mal anders.',
   louder: 'Du hast die Person nicht verstanden. Reagiere nach deiner Stufenregel fürs Nichtverstehen: erstes Mal — kurz in neuen Worten zugeben, EIN kurzer Fakt aus dem Briefing, dann eine neue Frage; zweites Mal in Folge — ein ANDERER Fakt und eine andere einfache Frage; drittes Mal in Folge — es ist zu laut, die Tacto-Kollegen direkt neben dir helfen gern. Nie derselbe Satz wie zuvor, in der Sprache des Gesprächs.',
   bye:    'Verabschiede dich mit einem Satz, per Sie und in der Sprache des Gesprächs: Dank für das Gespräch — und, wenn es passt, der Leitsatz von Tacto in eigenen Worten. Danach ist das Gespräch beendet: wer als Nächstes spricht, ist eine neue Person — nichts aus diesem Gespräch (Name, Firma, Thema) wiederverwenden.',
-  ctxCue: 'Anweisung deines Teams (oft auf Russisch) — setz sie JETZT um, deine ersten Worte sind schon die Szene, in der Sprache des Gesprächs, ohne Bestätigung:',
+  // 18.11 вечер (Макс: «отвратительно реагирует на задание, импровизирует в общих чертах; я печатать идеально не могу»):
+  // замер дня — задание выполнял первой фразой, а дальше дописывал питч, представление или выдумку. Теперь: ровно задание, коротко.
+  ctxCue: 'Anweisung deines Teams (meist Russisch, schnell am Handy getippt, oft mit Tippfehlern — nimm den gemeinten Sinn). Setz GENAU sie JETZT um, in der Sprache des Gesprächs, ohne Bestätigung, in ein, zwei kurzen Sätzen: «скажи …» oder ein bloßer Satz = sag genau das als deine eigenen Worte; «спроси …» = stell genau diese Frage; eine Info über die Gäste = greif sie auf; nur ein Wort oder eine Zahl = das hat der Gast gesagt, antworte darauf. Nichts dazuerfinden, dich nicht vorstellen, kein Firmenvortrag; danach höchstens eine kurze Frage, die zur Anweisung passt. Die Anweisung:',
 };
 document.title = 'Пульт ' + ROBOT.title;
 try{ const h=document.querySelector('h1'); if(h && ROBOT.version) h.insertAdjacentHTML('beforeend',' <small style="font-size:11px;opacity:.6;font-weight:400">v '+ROBOT.version+'</small>'); }catch{}
@@ -674,6 +676,8 @@ const $ = id => document.getElementById(id);
 let otvechajDerzhit = false;          // после ОТВЕЧАЙ микрофон закрыт до начала ответа
 const OTVECHAJ_MAX_MS = 8000;         // страховка: дольше робот не молчит — вернуть слух (18.11: было 15 с — гость повторял в закрытый микрофон)
 let _gain=null, _ac=null, _ist=null;
+// 18.11 вечер: состояние звука робота — его помнит и усилитель, собранный заново. golosBylTs — когда робот последний раз звучал.
+let golosVkl=true, golosBylTs=0, hvatitGlush=false, zhdemNovyj=false, zhdemAiId=-1, posledAiId=-1, slukhBylOtkryt=false;
 const USILENIE = 5.2;   // 27.10 ×4, 29.10 +30% (Макс: «очень тихие») — через компрессор, чтобы не хрипело               // во сколько раз громче единицы
 function usilitZvuk(){
   let el=null;
@@ -695,7 +699,7 @@ function usilitZvuk(){
       if(el._istSozdan) return;            // createMediaElementSource можно звать один раз
       _ist = _ac.createMediaElementSource(el); el._istSozdan = true;
     }
-    _gain = _ac.createGain(); _gain.gain.value = USILENIE;
+    _gain = _ac.createGain(); _gain.gain.value = golosVkl ? USILENIE : 0;   // 18.11: собранный заново усилитель не включает заглушённый голос
     const _komp = _ac.createDynamicsCompressor();   // 27.10: сжимает пики, чтобы ×4 не хрипело
     try{ _komp.threshold.value=-12; _komp.knee.value=6; _komp.ratio.value=12; _komp.attack.value=0.003; _komp.release.value=0.15; }catch{}
     _ist.connect(_gain); _gain.connect(_komp); _komp.connect(_ac.destination);
@@ -892,6 +896,7 @@ let boardTimer=null, boardWatchdog=null;
 function releaseBoard(msg){
   clearTimeout(boardTimer); clearTimeout(boardWatchdog);
   boardPlaying=false; applyMic();
+  if(!golosVkl && conv && !zhdemLi()) zhdatKoncaRechi();   // 18.11: запись остановили, а голос мозга был заглушён под неё — вернуть, когда замолчит
   if(msg) log(msg);
 }
 // 1B (аудит 19.10): записи сцены — в память телефона сразу при открытии пульта. Сцене не нужен мозг — пусть не нужна и сеть.
@@ -909,6 +914,7 @@ klipyVPamyat();
 window.addEventListener('online',()=>{ if((ROBOT.clips||[]).some(c=>c.data&&!c.blob)) klipyVPamyat(); });
 let klipNomer=0, tekKlip=null;
 function golosRobota(on){   // conv.setVolume НЕ трогает усилитель — глушим оба пути
+  golosVkl=!!on;
   try{ conv?.setVolume({volume:on?1:0}); }catch{}
   try{ if(_gain) _gain.gain.value = on?USILENIE:0; }catch{}
 }
@@ -966,7 +972,9 @@ function applyMic(){
     }
     return;
   }
-  const open = micWanted && !quiet && !agentSpeaking && !boardPlaying && !dictating && !otvechajDerzhit;
+  // 18.11: старый ответ заглушён и доигрывает в тишину — микрофон открыт: гость его перебивает, и робот отвечает гостю
+  const open = micWanted && !quiet && (!agentSpeaking || !golosVkl) && !boardPlaying && !dictating && !otvechajDerzhit;
+  if(open && zhdemLi()) slukhBylOtkryt=true;
   try{ conv.setMicMuted(!open); }catch{}
   ptt.classList.toggle('live', open);
   ptt.classList.toggle('locked', micWanted && (agentSpeaking||boardPlaying));
@@ -1009,6 +1017,7 @@ function armToggleTimeout(){
 let levelTimer=null, levelPeak=0, levelSilent=0, levelTick=0;
 let awaitingReply=false, awaitTimer=null;   // отправили задание/реплику — робот ДОЛЖЕН заговорить
 function expectReply(){
+  zhdemNovyj=true; zhdemAiId=posledAiId;   // 18.11: ушёл новый ввод — следующий ответ уже новый, его не глушить
   awaitingReply=true; clearTimeout(awaitTimer);
   awaitTimer=setTimeout(()=>{ awaitingReply=false; }, 90000);  // страховка
 }
@@ -1271,7 +1280,7 @@ $('hushBtn2')?.addEventListener('click', ()=>{ vibrate([90,60,90]); hush(); });
   let t=null, dolgo=false;
   function korotko(){
     if(!conv) return;
-    golosRobota(false);
+    golosRobota(false); hvatitGlush=true;   // 18.11: ✋ = стоп — старый ответ не доигрывает ни после паузы, ни после ПРОДОЛЖИТЬ
     setWanted(false);
     if(!quiet) setQuiet(true);
     ostanovitKlip();
@@ -1280,7 +1289,7 @@ $('hushBtn2')?.addEventListener('click', ()=>{ vibrate([90,60,90]); hush(); });
     // РАНЬШЕ звук возвращался ровно через 1,5 секунды — и речь продолжалась
     // с того места, где её застали. Именно поэтому кнопка казалась мёртвой
     // (поймано Максом 26.08). Теперь ждём, пока робот реально договорит.
-    zhdatKoncaRechi();
+    zhdatKoncaRechi({hvatit:true});
   }
   // Длинное нажатие на телефоне ненадёжно: браузер перехватывает его своим
   // меню выделения и до страницы оно не доходит (поймано Максом 23.08).
@@ -1291,7 +1300,7 @@ $('hushBtn2')?.addEventListener('click', ()=>{ vibrate([90,60,90]); hush(); });
   // возвращает слух и звук.
   function obratno(){
     setQuiet(false);
-    golosRobota(true);
+    zhdatKoncaRechi();   // 18.11: звук вернётся, когда старый ответ кончится (или его перебьют)
     vibrate(40);
     log('🔊 Снова слушает — ХВАТИТ отжат');
   }
@@ -1306,20 +1315,34 @@ $('hushBtn2')?.addEventListener('click', ()=>{ vibrate([90,60,90]); hush(); });
   window._hvatitUI();
 })();
 
-// Держим звук выключенным, пока агент не замолчит: проверяем каждые 300 мс,
-// на всякий случай не дольше 30 секунд.
-function zhdatKoncaRechi(){
+// Держим звук выключенным, пока старый ответ робота не кончится.
+// 18.11 вечер (Макс, Tacto): «жму ХВАТИТ — один замолкает, пауза, и всё равно договаривает». Сервер договаривает ответ до конца
+// (заглушён только звук), а между фразами бывает пауза — старая проверка принимала её за конец и включала звук посреди фразы.
+// Теперь звук возвращается, только когда:
+//  • робот молчит 1,2 с подряд (ответ правда кончился) — а после ✋ ХВАТИТ ещё и тишина снята (ПРОДОЛЖИТЬ или любая кнопка);
+//  • или старый ответ оборван новым вводом (задание, гость, ОТВЕЧАЙ, голос гостя) — дальше звучит уже новый ответ.
+// Страховка: не дольше 45 с — робот никогда не остаётся немым.
+function zhdemLi(){ return !!zhdatKoncaRechi._t; }
+function golosVernut(){ clearInterval(zhdatKoncaRechi._t); zhdatKoncaRechi._t=null; hvatitGlush=false; zhdemNovyj=false; golosRobota(true); applyMic(); }
+function zhdatKoncaRechi(o){
   clearInterval(zhdatKoncaRechi._t);
   const nachalo = performance.now();
-  zhdatKoncaRechi._t = setInterval(()=>{
-    const dogovoril = !agentSpeaking;
-    const pora = performance.now() - nachalo > 30000;
-    if(dogovoril || pora){
-      clearInterval(zhdatKoncaRechi._t);
-      golosRobota(true);
-    }
-  }, 300);
+  if(o && o.hvatit){ hvatitGlush=true; zhdemNovyj=false; zhdemAiId=posledAiId; }
+  slukhBylOtkryt=false;
+  const tik=()=>{
+    const now=performance.now();
+    if(agentSpeaking) golosBylTs=now;
+    const dogovoril = !agentSpeaking && now-golosBylTs > 1200 && !hvatitGlush;
+    if(dogovoril || now-nachalo > 45000) golosVernut();
+  };
+  zhdatKoncaRechi._t = setInterval(tik, 200);
+  tik();
 }
+function aiPrishel(id){   // новый ответ мозга (agent_response)
+  if(typeof id==='number' && id>posledAiId) posledAiId=id;
+  if(zhdemLi() && !hvatitGlush && (zhdemNovyj || slukhBylOtkryt) && !(typeof id==='number' && id<=zhdemAiId)) golosVernut();
+}
+function prervan(){ if(zhdemLi() && !hvatitGlush) golosVernut(); }   // сервер оборвал старый ответ
 
 async function keepAwake(){
   try{
@@ -1442,6 +1465,7 @@ async function doConnect(isReconnect){
         $('connText').textContent=on?'подключено':status;
         if(status==='disconnected') handleDisconnect();
       },
+      onInterruption:()=>{ try{ prervan(); }catch{} },   // 18.11: старый ответ оборван новым вводом — дальше звучит новый
       onModeChange:({mode})=>{
         const speaking=mode==='speaking';
         if(speaking) awaitingReply=false;   // ответ пошёл — пинг снова можно
@@ -1449,10 +1473,10 @@ async function doConnect(isReconnect){
         $('modeText').textContent=speaking?'робот говорит':'тишина';
         clearTimeout(tailTimer);
         hushMaybeRelease(speaking);
-        if(speaking){ zvukZhiv(); agentSpeaking=true; otpustitOtvechaj(); if(boardPlaying){ if(tekKlip?.sluzh) ostanovitKlip(); else golosRobota(false); } applyMic(); }
+        if(speaking){ zvukZhiv(); agentSpeaking=true; golosBylTs=performance.now(); otpustitOtvechaj(); if(boardPlaying){ if(tekKlip?.sluzh) ostanovitKlip(); else golosRobota(false); } applyMic(); }
         else {
           tailTimer=setTimeout(()=>{
-            agentSpeaking=false;
+            agentSpeaking=false; golosBylTs=performance.now();
             // в режиме «всегда открыт» микрофон сам возвращается после речи робота
             // (но не в режиме «ТИХО» — там он остаётся закрытым намеренно)
             if(micMode()==='open' && !quiet) micWanted=true;
@@ -1460,7 +1484,8 @@ async function doConnect(isReconnect){
           }, TAIL_MS);
         }
       },
-      onMessage:({source,message})=>{
+      onMessage:({source,message,event_id})=>{
+        if(source==='ai') aiPrishel(event_id);   // 18.11: пошёл новый ответ — его не глушить
         log((source==='ai'?'🤖 ':'🧑 ')+message);
         if(source!=='ai'){
           const t=(message||'').trim();
@@ -1497,6 +1522,7 @@ async function doConnect(isReconnect){
     // усилитель цепляем, когда SDK уже создал свой аудио-элемент
     setTimeout(usilitZvuk, 800); setTimeout(usilitZvuk, 2500);
     clearTimeout(reconnectTimer); reconnectTimer=null;   // висящий таймер добил бы живую сессию
+    hvatitGlush=false; clearInterval(zhdatKoncaRechi._t); zhdatKoncaRechi._t=null;   // 18.11: новая сессия — старых ответов нет
     golosRobota(true);   // страховка: СТОП глушил в ноль (и усилитель тоже)
     reconnectTries=0;   // связь восстановилась — счётчик попыток сбрасываем
     $('reconnBanner').textContent='🔄 Связь прервалась — переподключаюсь…';
@@ -1633,7 +1659,7 @@ ptt.addEventListener('pointerdown',e=>{
   }
   // 21.09: в режиме «руки свободны» тишину тоже надо снимать, иначе микрофон
   // не откроется и кнопка выглядит сломанной.
-  if(quiet){ setQuiet(false); golosRobota(true); setWanted(true); return; }
+  if(quiet){ setQuiet(false); zhdatKoncaRechi(); setWanted(true); return; }   // 18.11: старый ответ не доигрывает
   setWanted(!micWanted);
 });
 ptt.addEventListener('pointerup',e=>{ e.preventDefault(); if(isHold()) setWanted(false); });
@@ -1732,6 +1758,7 @@ function quietUI(){
                       : '🤫 ТИХО — не заговаривать<br><small>сессия жива, робот молчит и не слушает</small>';
 }
 function setQuiet(v){
+  if(!v) hvatitGlush=false;   // 18.11: тишину сняли — старый ответ отпускаем, как только он кончится
   quiet=v; vibrate(v?[60,40,60]:40);
   quietUI();
   try{ window._hvatitUI?.(); }catch{}
@@ -1984,7 +2011,12 @@ if((ROBOT.offline||[]).length){
     b.onclick=()=>{
       vibrate([35,25,35]);
       if(quiet) setQuiet(false);                   // как раньше команда: снимает ✋ ХВАТИТ
+      // 18.11 вечер (Макс): «нажал Завершить, а прошлый ответ не закончен — играют два одновременно». Старый ответ мозга
+      // глушим сразу и насовсем: звук вернётся, когда он кончится или его перебьёт гость/команда (zhdatKoncaRechi).
+      if(conv && (agentSpeaking || otvechajDerzhit || performance.now()-golosBylTs<1500)) golosRobota(false);
       const c=igrat(it, b);
+      // 18.11 вечер (Макс): «Заговорить первым» = новый человек, новый диалог
+      if(c && id==='qaHello' && conv){ try{ conv.sendContextualUpdate('Neues Gespräch: vor dir steht jetzt eine NEUE Person. Nichts aus früheren Gesprächen wiederverwenden (Name, Firma, Thema). Die Begrüßung ist schon gesagt — nicht noch einmal vorstellen.'); }catch{} }
       if(c && id==='qaBye' && conv){ try{ conv.sendContextualUpdate('Das Gespräch ist beendet: wer als Nächstes spricht, ist eine neue Person — nichts aus diesem Gespräch (Name, Firma, Thema) wiederverwenden.'); }catch{} }
       if(id==='qaHello' && !conv && sessionCfg && !connecting) ensureConn();
     };
