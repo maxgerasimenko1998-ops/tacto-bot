@@ -524,7 +524,7 @@ const ROBOT = {
   ns: 'tacto:',                                     // префикс памяти браузера — СВОЙ у каждого пульта (домен GitHub Pages общий)
   agent: 'agent_4601m7nnqrpxe0krx7k8hhzf5p4j',  // мозг робота (deploy_robot.py --robot tacto)
   title: 'Tacto-Bot · BME-Symposium',
-  version: '19.11.2026 Tacto-Bot · 10',
+  version: '19.11.2026 Tacto-Bot · 11',
   dayCtx: "61. BME-Symposium Einkauf und Logistik, STATION Berlin, Stand B31 in Halle 4 (Tacto). Du bist der Tacto-Bot, der Roboter-Botschafter von Tacto. Behandle jeden, der mit dir spricht, wie einen Besucher am Tacto-Stand — per Sie, bis er dich duzt. Deine Kolleginnen und Kollegen von Tacto sind am Stand.",
   tishinaPosleZapisi: false,   // стенд: после записи робот слушает ответ гостя; сцена (1B, Robby) — ✋
   startTiho: false,   // Robby-сцена: после (пере)подключения глухой, пока не «🔊 ПРОДОЛЖИТЬ»
@@ -631,9 +631,9 @@ const ROBOT = {
   quick: {},
 
   // Служебные тексты — уходят по каналу ⟦REGIE⟧, гость их произнести не может.
-  answerCue: '⟦REGIE⟧ ОТВЕЧАЙ. Antworte JETZT auf die letzten Worte des Gastes seit deiner letzten Antwort. '
-           + 'Hat der Gast seit deiner letzten Antwort noch nichts Verständliches gesagt: '
-           + 'sag NICHTS: ruf skip_turn auf und warte — sobald er spricht, antwortest du ihm. Kein Satz über Nichtverstehen, keine neue Begrüßung.',
+  answerCue: '⟦REGIE⟧ ОТВЕЧАЙ. Antworte JETZT auf die letzten Worte des Gastes seit deiner letzten Antwort — auch auf einen halben Satz: nimm den verständlichen Teil und antworte kurz darauf. '
+           + 'Ist seit deiner letzten Antwort gar nichts Verständliches angekommen: NICHT schweigen und kein skip_turn — '
+           + 'bitte in wenigen Worten, es lauter zu wiederholen (deine Stufe fürs Nichtverstehen, jedes Mal andere Worte). Keine neue Begrüßung.',
   hello:  'Sprich als Erster, ganz kurz und per Sie: du bist der Tacto-Bot, KI-Assistent von Tacto; hier ist es laut — bitte lauter; lad ein zu reden: fragen Sie mich. Höchstens drei sehr kurze Sätze, jedes Mal andere Worte.',
   louder: 'Du hast die Person nicht verstanden. Reagiere nach deiner Stufenregel fürs Nichtverstehen: erstes Mal — kurz in neuen Worten zugeben, EIN kurzer Fakt aus dem Briefing, dann eine neue Frage; zweites Mal in Folge — ein ANDERER Fakt und eine andere einfache Frage; drittes Mal in Folge — es ist zu laut, die Tacto-Kollegen direkt neben dir helfen gern. Nie derselbe Satz wie zuvor, in der Sprache des Gesprächs.',
   bye:    'Verabschiede dich mit einem Satz, per Sie und in der Sprache des Gesprächs: Dank für das Gespräch — und, wenn es passt, der Leitsatz von Tacto in eigenen Worten. Danach ist das Gespräch beendet: wer als Nächstes spricht, ist eine neue Person — nichts aus diesem Gespräch (Name, Firma, Thema) wiederverwenden.',
@@ -678,6 +678,7 @@ const OTVECHAJ_MAX_MS = 8000;         // страховка: дольше роб
 let _gain=null, _ac=null, _ist=null;
 // 18.11 вечер: состояние звука робота — его помнит и усилитель, собранный заново. golosBylTs — когда робот последний раз звучал.
 let golosVkl=true, golosBylTs=0, hvatitGlush=false, zhdemNovyj=false, zhdemAiId=-1, posledAiId=-1, slukhBylOtkryt=false;
+let bylRazgovor=false;   // 19.11: в этой сессии робот уже говорил с кем-то — «Завершить»/«Заговорить первым» начнут новую
 const USILENIE = 5.2;   // 27.10 ×4, 29.10 +30% (Макс: «очень тихие») — через компрессор, чтобы не хрипело               // во сколько раз громче единицы
 function usilitZvuk(){
   let el=null;
@@ -1486,6 +1487,7 @@ async function doConnect(isReconnect){
       },
       onMessage:({source,message,event_id})=>{
         if(source==='ai') aiPrishel(event_id);   // 18.11: пошёл новый ответ — его не глушить
+        if(String(message||'').trim() && !String(message).trim().startsWith('\u27e6')) bylRazgovor=true;   // 19.11
         log((source==='ai'?'🤖 ':'🧑 ')+message);
         if(source!=='ai'){
           const t=(message||'').trim();
@@ -1523,6 +1525,7 @@ async function doConnect(isReconnect){
     setTimeout(usilitZvuk, 800); setTimeout(usilitZvuk, 2500);
     clearTimeout(reconnectTimer); reconnectTimer=null;   // висящий таймер добил бы живую сессию
     hvatitGlush=false; clearInterval(zhdatKoncaRechi._t); zhdatKoncaRechi._t=null;   // 18.11: новая сессия — старых ответов нет
+    bylRazgovor=false;   // 19.11: новая сессия — разговора в ней ещё не было
     golosRobota(true);   // страховка: СТОП глушил в ноль (и усилитель тоже)
     reconnectTries=0;   // связь восстановилась — счётчик попыток сбрасываем
     $('reconnBanner').textContent='🔄 Связь прервалась — переподключаюсь…';
@@ -2002,6 +2005,25 @@ if((ROBOT.offline||[]).length){
   const jzKnopki=[];
   function setJZ(l){ JZ=l; jzKnopki.forEach(b=>{ b.textContent=l==='en'?'🇬🇧 EN':'🇩🇪 DE'; b.classList.toggle('jzen', l==='en'); }); Object.values(OFFI).forEach(podp); }
   const jzKnopka=()=>{ const b=document.createElement('button'); b.type='button'; b.className='jz'; b.onclick=()=>setJZ(JZ==='de'?'en':'de'); jzKnopki.push(b); return b; };
+  // 19.11 (Макс, голосовые в Офис): «гость говорит „до свидания“, жму Завершить — идёт запись, и следом робот отвечает на его
+  // прощание второй речью»; «новый разговор — всё, стоп, предыдущий разговор». Замер 19.11: после «Завершить» мозг отвечал на
+  // «Tschau», «ich verabschiede mich» уходящего гостя. Теперь «Завершить» и «Заговорить первым» после разговора начинают с мозгом
+  // НОВЫЙ разговор, пока звучит запись: старая сессия закрыта — недоговорённое и запоздалые слова прошлого гостя не доходят,
+  // история чистая. Новому мозгу — заметка: что уже сказано записью и что прощание уходящего — не ему.
+  async function novyjRazgovor(id, c){
+    log(id==='qaBye' ? '🆕 Разговор завершён — мозг начинает заново' : '🆕 Новый человек — мозг начинает заново');
+    bylRazgovor=false; hiddenLog=[]; pendingRegie=false;
+    agentSpeaking=false; clearTimeout(tailTimer);
+    if(otvechajDerzhit) otpustitOtvechaj();
+    hvatitGlush=false; clearInterval(zhdatKoncaRechi._t); zhdatKoncaRechi._t=null;
+    await doConnect(false);
+    if(!conv) return;
+    const skazal=bezT(c.text||'');
+    try{ conv.sendContextualUpdate(id==='qaBye'
+      ? 'Neues Gespräch. Das vorige ist eben beendet, die Verabschiedung hast du schon gesagt (Aufnahme): „'+skazal+'“. Sagt jetzt jemand nur Tschüss, Danke oder Schönen Tag, ist das die vorige Person, die geht: ruf skip_turn auf. Wer dich danach anspricht, ist eine neue Person.'
+      : NOVYJ_GOST+' Begrüßt hast du sie eben (Aufnahme): „'+skazal+'“.'); }catch{}
+  }
+  const NOVYJ_GOST='Neues Gespräch: vor dir steht jetzt eine NEUE Person. Nichts aus früheren Gesprächen wiederverwenden (Name, Firma, Thema). Sei voll da: alles, was jetzt kommt, ist an dich gerichtet — antworte sofort und kurz, auch auf einen halben Satz. Nicht noch einmal vorstellen.';
   // три нижние кнопки
   const KZ=ROBOT.knopkiZapisi||{};
   if($('qaHello')?.parentElement) $('qaHello').parentElement.prepend(jzKnopka());
@@ -2015,8 +2037,9 @@ if((ROBOT.offline||[]).length){
       // глушим сразу и насовсем: звук вернётся, когда он кончится или его перебьёт гость/команда (zhdatKoncaRechi).
       if(conv && (agentSpeaking || otvechajDerzhit || performance.now()-golosBylTs<1500)) golosRobota(false);
       const c=igrat(it, b);
+      if(c && (id==='qaBye' || id==='qaHello') && conv && bylRazgovor && !connecting){ novyjRazgovor(id, c); return; }   // 19.11
       // 18.11 вечер (Макс): «Заговорить первым» = новый человек, новый диалог
-      if(c && id==='qaHello' && conv){ try{ conv.sendContextualUpdate('Neues Gespräch: vor dir steht jetzt eine NEUE Person. Nichts aus früheren Gesprächen wiederverwenden (Name, Firma, Thema). Die Begrüßung ist schon gesagt — nicht noch einmal vorstellen.'); }catch{} }
+      if(c && id==='qaHello' && conv){ try{ conv.sendContextualUpdate(NOVYJ_GOST); }catch{} }
       if(c && id==='qaBye' && conv){ try{ conv.sendContextualUpdate('Das Gespräch ist beendet: wer als Nächstes spricht, ist eine neue Person — nichts aus diesem Gespräch (Name, Firma, Thema) wiederverwenden.'); }catch{} }
       if(id==='qaHello' && !conv && sessionCfg && !connecting) ensureConn();
     };
