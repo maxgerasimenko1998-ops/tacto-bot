@@ -338,8 +338,8 @@
 // новый префикс ns (см. предупреждение ниже), свой agent, свои режимы и кнопки.
 // записи пульта — слово в слово из teksty.json робота, голос и настройки мозга; сверены распознаванием
 const _K = {
-  privet_de: { label: "🇩🇪 Привет", data: 'clips/de/privet.mp3', text: "Hallo! Ich bin der Tacto-Bot, ein KI-Roboter von Tacto. Hier ist es laut — bitte sprechen Sie laut. Was möchten Sie über Tacto wissen?" },
-  privet_en: { label: "🇬🇧 Привет", data: 'clips/en/privet.mp3', text: "Hello! I'm Tacto-Bot, an AI robot from Tacto. It's loud here — please speak up. What would you like to know about Tacto?" },
+  privet_de: { label: "🇩🇪 Привет", data: 'clips/de/privet.mp3', text: "Hallo, ich bin der Tacto-Bot, KI-Assistent von Tacto. Laut hier, bitte lauter. Fragen Sie mich!" },
+  privet_en: { label: "🇬🇧 Привет", data: 'clips/en/privet.mp3', text: "Hi, I'm Tacto-Bot, Tacto's AI assistant. It's loud, please speak up. Ask me!" },
   naeher_de: { label: "🇩🇪 Подойдите ближе", data: 'clips/de/naeher.mp3', text: "Kommen Sie ruhig näher. Hier bei Tacto treffen Atoms auf Bits." },
   naeher_en: { label: "🇬🇧 Подойдите ближе", data: 'clips/en/naeher.mp3', text: "Come on over. Here at Tacto, atoms meet bits." },
   foto_de: { label: "🇩🇪 Фото", data: 'clips/de/foto.mp3', text: "Ein Foto mit mir? Sehr gern, ich halte still." },
@@ -367,16 +367,16 @@ const _K = {
 };
 // 18.11: фразы пульта без облака (tacto-offline/fraze.json) — сверены распознаванием
 const _OFF = {
-  hallo_1_de: { label: "📴 Привет + «спросите о Tacto» · DE", data: 'clips/off/de/hallo-1.mp3', text: "Hallo! Ich bin der Tacto-Bot, ein KI-Roboter von Tacto. Hier ist es laut — bitte sprechen Sie laut. Was möchten Sie über Tacto wissen?" },
-  hallo_1_en: { label: "📴 Привет + «спросите о Tacto» · EN", data: 'clips/off/en/hallo-1.mp3', text: "Hello! I'm Tacto-Bot, an AI robot from Tacto. It's loud here — please speak up. What would you like to know about Tacto?" },
-  hallo_2_de: { label: "📴 Привет + «спросите о Tacto» · DE", data: 'clips/off/de/hallo-2.mp3', text: "Guten Tag! Tacto-Bot hier, der KI-Roboter von Tacto. Es ist laut, also gern laut sprechen. Fragen Sie mich alles über Tacto — womit fangen wir an?" },
-  hallo_2_en: { label: "📴 Привет + «спросите о Tacto» · EN", data: 'clips/off/en/hallo-2.mp3', text: "Hi there! Tacto-Bot here, Tacto's AI robot. It's noisy, so please speak loudly. Ask me anything about Tacto — where shall we start?" },
-  hallo_3_de: { label: "📴 Привет + «спросите о Tacto» · DE", data: 'clips/off/de/hallo-3.mp3', text: "Hallo und willkommen! Ich bin der Tacto-Bot und vertrete Tacto. Bitte sprechen Sie laut, hier ist viel los. Was interessiert Sie an Tacto?" },
-  hallo_3_en: { label: "📴 Привет + «спросите о Tacto» · EN", data: 'clips/off/en/hallo-3.mp3', text: "Hello and welcome! I'm Tacto-Bot, and I represent Tacto. Please speak up, it's busy in here. What interests you about Tacto?" },
-  hallo_4_de: { label: "📴 Привет + «спросите о Tacto» · DE", data: 'clips/off/de/hallo-4.mp3', text: "Schön, dass Sie da sind! Ich bin der Tacto-Bot, der KI-Roboter von Tacto. Hier ist es laut — sprechen Sie bitte laut. Was wollten Sie über Tacto schon immer wissen?" },
-  hallo_4_en: { label: "📴 Привет + «спросите о Tacto» · EN", data: 'clips/off/en/hallo-4.mp3', text: "Great to see you! I'm Tacto-Bot, Tacto's AI robot. It's loud here — please speak up. What have you always wanted to know about Tacto?" },
-  hallo_5_de: { label: "📴 Привет + «спросите о Tacto» · DE", data: 'clips/off/de/hallo-5.mp3', text: "Hallo! Ich bin der Tacto-Bot, ein KI-Roboter von Tacto. Sprechen Sie bitte laut — hier ist viel los. Fragen Sie mich alles über Tacto: Was interessiert Sie?" },
-  hallo_5_en: { label: "📴 Привет + «спросите о Tacto» · EN", data: 'clips/off/en/hallo-5.mp3', text: "Hello! I'm Tacto-Bot, an AI robot from Tacto. Please speak loudly — it's busy here. Ask me anything about Tacto: what interests you?" },
+  hallo_1_de: { label: "📴 Привет + «давайте поговорим» · DE", data: 'clips/off/de/hallo-1.mp3', text: "Hallo, ich bin der Tacto-Bot, KI-Assistent von Tacto. Laut hier, bitte lauter. Fragen Sie mich!" },
+  hallo_1_en: { label: "📴 Привет + «давайте поговорим» · EN", data: 'clips/off/en/hallo-1.mp3', text: "Hi, I'm Tacto-Bot, Tacto's AI assistant. It's loud, please speak up. Ask me!" },
+  hallo_2_de: { label: "📴 Привет + «давайте поговорим» · DE", data: 'clips/off/de/hallo-2.mp3', text: "Guten Tag, Tacto-Bot hier, ich assistiere Tacto. Es ist laut, also lauter. Reden wir!" },
+  hallo_2_en: { label: "📴 Привет + «давайте поговорим» · EN", data: 'clips/off/en/hallo-2.mp3', text: "Good day, Tacto-Bot here, I assist Tacto. It's loud, so louder. Let's talk!" },
+  hallo_3_de: { label: "📴 Привет + «давайте поговорим» · DE", data: 'clips/off/de/hallo-3.mp3', text: "Willkommen! Tacto-Bot hier, Assistent von Tacto. Bitte lauter, es ist laut. Lassen Sie uns reden!" },
+  hallo_3_en: { label: "📴 Привет + «давайте поговорим» · EN", data: 'clips/off/en/hallo-3.mp3', text: "Welcome! Tacto-Bot here, assistant of Tacto. Louder, please, it's loud. Let's talk!" },
+  hallo_4_de: { label: "📴 Привет + «давайте поговорим» · DE", data: 'clips/off/de/hallo-4.mp3', text: "Hallo! Ich bin der Tacto-Bot und helfe Tacto. Es ist laut, bitte lauter. Fragen Sie mich ruhig!" },
+  hallo_4_en: { label: "📴 Привет + «давайте поговорим» · EN", data: 'clips/off/en/hallo-4.mp3', text: "Hello! I'm Tacto-Bot, helping Tacto. It's loud, please speak up. Go ahead, ask me!" },
+  hallo_5_de: { label: "📴 Привет + «давайте поговорим» · DE", data: 'clips/off/de/hallo-5.mp3', text: "Hallo zusammen! Tacto-Bot, KI-Assistent von Tacto. Laut hier, bitte lauter. Was wollen Sie wissen?" },
+  hallo_5_en: { label: "📴 Привет + «давайте поговорим» · EN", data: 'clips/off/en/hallo-5.mp3', text: "Hello everyone! Tacto-Bot, Tacto's AI assistant. It's loud, please speak up. What do you want to know?" },
   hoere_1_de: { label: "📴 Слышишь меня? — Да · DE", data: 'clips/off/de/hoere-1.mp3', text: "Ja, ich höre Sie! Fragen Sie mich ruhig, was Tacto für den Einkauf macht." },
   hoere_1_en: { label: "📴 Слышишь меня? — Да · EN", data: 'clips/off/en/hoere-1.mp3', text: "Yes, I can hear you! Go ahead and ask me what Tacto does for procurement." },
   laut_1_de: { label: "📴 Не расслышал — повтори · DE", data: 'clips/off/de/laut-1.mp3', text: "Wie bitte? Etwas lauter, bitte!" },
@@ -524,7 +524,7 @@ const ROBOT = {
   ns: 'tacto:',                                     // префикс памяти браузера — СВОЙ у каждого пульта (домен GitHub Pages общий)
   agent: 'agent_4601m7nnqrpxe0krx7k8hhzf5p4j',  // мозг робота (deploy_robot.py --robot tacto)
   title: 'Tacto-Bot · BME-Symposium',
-  version: '18.11.2026 Tacto-Bot · 9',
+  version: '19.11.2026 Tacto-Bot · 10',
   dayCtx: "61. BME-Symposium Einkauf und Logistik, STATION Berlin, Stand B31 in Halle 4 (Tacto). Du bist der Tacto-Bot, der Roboter-Botschafter von Tacto. Behandle jeden, der mit dir spricht, wie einen Besucher am Tacto-Stand — per Sie, bis er dich duzt. Deine Kolleginnen und Kollegen von Tacto sind am Stand.",
   tishinaPosleZapisi: false,   // стенд: после записи робот слушает ответ гостя; сцена (1B, Robby) — ✋
   startTiho: false,   // Robby-сцена: после (пере)подключения глухой, пока не «🔊 ПРОДОЛЖИТЬ»
@@ -536,7 +536,7 @@ const ROBOT = {
   // 18.11 (Tacto): все фразы без облака — внизу пульта; три нижние кнопки играют свои фразы по кругу
   offline: [
     { nav: "🆘", ru: "Главное", items: [
-      { id: "hallo", ru: "Привет + «спросите о Tacto»", v: [{ de: _OFF.hallo_1_de, en: _OFF.hallo_1_en }, { de: _OFF.hallo_2_de, en: _OFF.hallo_2_en }, { de: _OFF.hallo_3_de, en: _OFF.hallo_3_en }, { de: _OFF.hallo_4_de, en: _OFF.hallo_4_en }, { de: _OFF.hallo_5_de, en: _OFF.hallo_5_en }] },
+      { id: "hallo", ru: "Привет + «давайте поговорим»", v: [{ de: _OFF.hallo_1_de, en: _OFF.hallo_1_en }, { de: _OFF.hallo_2_de, en: _OFF.hallo_2_en }, { de: _OFF.hallo_3_de, en: _OFF.hallo_3_en }, { de: _OFF.hallo_4_de, en: _OFF.hallo_4_en }, { de: _OFF.hallo_5_de, en: _OFF.hallo_5_en }] },
       { id: "hoere", ru: "Слышишь меня? — Да", v: [{ de: _OFF.hoere_1_de, en: _OFF.hoere_1_en }] },
       { id: "laut", ru: "Не расслышал — повтори", v: [{ de: _OFF.laut_1_de, en: _OFF.laut_1_en }, { de: _OFF.laut_2_de, en: _OFF.laut_2_en }, { de: _OFF.laut_3_de, en: _OFF.laut_3_en }, { de: _OFF.laut_4_de, en: _OFF.laut_4_en }, { de: _OFF.laut_5_de, en: _OFF.laut_5_en }] },
       { id: "moment", ru: "Секунду…", v: [{ de: _OFF.moment_1_de, en: _OFF.moment_1_en }, { de: _OFF.moment_2_de, en: _OFF.moment_2_en }] },
@@ -606,7 +606,7 @@ const ROBOT = {
   knopkiZapisi: {"qaHello": "hallo", "qaLouder": "laut", "qaBye": "bye"},
   cards: [
     { id: "A", nav: "Привет", num: "1", q: "Привет и к стенду", qru: "привет · подойдите · фото", items: [
-      { name: "Привет", dur: 10, first: "Hallo! Ich bin der Tacto-Bot, ein KI-Roboter von Tacto. Hier ist es laut — …", de: _K.privet_de, en: _K.privet_en },
+      { name: "Привет", dur: 7, first: "Hallo, ich bin der Tacto-Bot, KI-Assistent von Tacto. Laut hier, bitte …", de: _K.privet_de, en: _K.privet_en },
       { name: "Подойдите ближе", dur: 5, first: "Kommen Sie ruhig näher. Hier bei Tacto treffen Atoms auf Bits.", de: _K.naeher_de, en: _K.naeher_en },
       { name: "Фото", dur: 4, first: "Ein Foto mit mir? Sehr gern, ich halte still.", de: _K.foto_de, en: _K.foto_en } ] },
     { id: "B", nav: "Tacto", num: "2", q: "Tacto одной фразой и доказательства", qru: "главная фраза · Kern Liebers · кран", items: [
@@ -634,7 +634,7 @@ const ROBOT = {
   answerCue: '⟦REGIE⟧ ОТВЕЧАЙ. Antworte JETZT auf die letzten Worte des Gastes seit deiner letzten Antwort. '
            + 'Hat der Gast seit deiner letzten Antwort noch nichts Verständliches gesagt: '
            + 'sag NICHTS: ruf skip_turn auf und warte — sobald er spricht, antwortest du ihm. Kein Satz über Nichtverstehen, keine neue Begrüßung.',
-  hello:  'Sprich als Erster, kurz und per Sie: du bist der Tacto-Bot, ein KI-Roboter von Tacto; hier ist es laut — die Person soll laut sprechen; dann frag, was sie über Tacto wissen möchte. Höchstens drei kurze Sätze, jedes Mal anders.',
+  hello:  'Sprich als Erster, ganz kurz und per Sie: du bist der Tacto-Bot, KI-Assistent von Tacto; hier ist es laut — bitte lauter; lad ein zu reden: fragen Sie mich. Höchstens drei sehr kurze Sätze, jedes Mal andere Worte.',
   louder: 'Du hast die Person nicht verstanden. Reagiere nach deiner Stufenregel fürs Nichtverstehen: erstes Mal — kurz in neuen Worten zugeben, EIN kurzer Fakt aus dem Briefing, dann eine neue Frage; zweites Mal in Folge — ein ANDERER Fakt und eine andere einfache Frage; drittes Mal in Folge — es ist zu laut, die Tacto-Kollegen direkt neben dir helfen gern. Nie derselbe Satz wie zuvor, in der Sprache des Gesprächs.',
   bye:    'Verabschiede dich mit einem Satz, per Sie und in der Sprache des Gesprächs: Dank für das Gespräch — und, wenn es passt, der Leitsatz von Tacto in eigenen Worten. Danach ist das Gespräch beendet: wer als Nächstes spricht, ist eine neue Person — nichts aus diesem Gespräch (Name, Firma, Thema) wiederverwenden.',
   // 18.11 вечер (Макс: «отвратительно реагирует на задание, импровизирует в общих чертах; я печатать идеально не могу»):
@@ -900,7 +900,7 @@ function releaseBoard(msg){
   if(msg) log(msg);
 }
 // 1B (аудит 19.10): записи сцены — в память телефона сразу при открытии пульта. Сцене не нужен мозг — пусть не нужна и сеть.
-const KLIP_V='1811f';   // переозвучил запись — поменяй метку (урок эфира 21.08)
+const KLIP_V='1911a';   // переозвучил запись — поменяй метку (урок эфира 21.08)
 function klipyVPamyat(){
   const vse=(ROBOT.clips||[]).filter(c=>c.data); let gotovo=0, oshibok=0;
   const pokaz=()=>{ const l=$('board')?.previousElementSibling;
